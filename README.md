@@ -15,13 +15,13 @@ They are written using Python, pytest (with the pytest-check plugin), and the Py
 
    <pre>pip install -r requirements.txt</pre>
 
-That installs the following 3 Python packages, along with their dependencies:
+That installs the following Python packages, along with their dependencies:
 
-- [pytest-check:](https://pypi.org/project/pytest-check/) pytest plugin that allows multiple failures per test
-  - Installed dependencies include [pytest:](https://pypi.org/project/pytest/) Simple powerful testing with Python
-- [selenium:](https://pypi.org/project/selenium/) Python bindings for Selenium WebDriver
-- [webdriver-manager:](https://pypi.org/project/webdriver-manager/) Manages WebDriver installs, so you don't have to
-  - Installed dependencies include [requests:](https://pypi.org/project/requests/) Python HTTP for Humans
+- [pytest:](https://pypi.org/project/pytest/) a Python testing framework
+  - Because pytest is a dependency of pytest-check (below), it would be installed even if it was omitted from requirements.txt. But it's been included in requirements.txt to make its use explicit.
+- [pytest-check:](https://pypi.org/project/pytest-check/) a pytest plugin that allows multiple failures per test
+- [selenium:](https://pypi.org/project/selenium/) the Python bindings for Selenium WebDriver
+- [webdriver-manager:](https://pypi.org/project/webdriver-manager/) manages WebDriver installs, so you don't have to
 
 [Although build_test_challenge4_expected.py references PyPI's [num2words](https://pypi.org/project/num2words/) package:
 
@@ -52,9 +52,9 @@ That's why num2words has not been included in requirements.txt.]
    <pre>SILVERADO - https://www.copart.com/popular/model/silverado</pre>
    Because pytest captures stdout/stderr by default, in order to see this output, you'll need to run pytest with the "-s" (or "-rP") parameter, as in:
    <pre><code>pytest challenges\test_challenge3.py -s</code></pre>
-   However, if you're running pytest through VS Code, you can instead just enable "-s" for all the test challenges, by including "-s" as an argument to pytest in your VS Code settings file for this repository. In Windows, this file is (relative to this repository) in .vscode\settings.json.\
+   If you're running pytest through VS Code, you can instead enable "-s" for all the test challenges. To do that, include "-s" as an argument to pytest in a VS Code settings file for this repository. In Windows, this file is (relative to this repository) in .vscode\settings.json.\
    \
-   Since the .vscode folder is listed in my .gitnore file, this repository doesn't contain a copy of my .vscode\settings.json file. But if you want to see what it looks like, here it is:
+   That's what I have done. So, for your information, I've included a copy of my .vscode\settings.json file below:
    ```
    {
       "python.testing.pytestArgs": [

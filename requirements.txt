@@ -1,3 +1,4 @@
+pytest
 pytest-check
 selenium
 webdriver_manager
