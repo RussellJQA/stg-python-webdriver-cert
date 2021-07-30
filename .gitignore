@@ -130,4 +130,4 @@ dmypy.json
 
 # Custom ignores
 /.vscode
-/my_notes_and_questions
+/screenshots/*.png

@@ -18,6 +18,8 @@ def driver():
     driver = webdriver.Chrome(ChromeDriverManager().install(
     ))  # Install and initialize Chrome WebDriver for Selenium
 
+    driver.maximize_window()
+
     yield driver
 
     # Cleanup/Teardown: Code after the 'yield' statement is run after each test
