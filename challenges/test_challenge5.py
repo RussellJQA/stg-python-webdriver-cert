@@ -46,22 +46,26 @@ or, for fuller output:
 
 from collections import Counter
 
+# pip installed
+
+import pytest
+
 # Custom imports
+
 from pages.copart_home import CopartHomePage
 
 # Challenge 5, Part 1
 
 
-def test_print_porsche_models(driver, wait):
-
-    SEARCH_KEY = "porsche"
+@pytest.mark.parametrize("search_key", ["porsche"])
+def test_print_porsche_models(driver, wait, search_key):
 
     # GIVEN the Copart homepage is displayed
     copart_homepage = CopartHomePage(driver, wait)
 
     # WHEN the user searches for the specified search phrase,
     # and sets the entries per page to 100
-    copart_homepage.search_and_set_entries_per_page(SEARCH_KEY, 100)
+    copart_homepage.search_and_set_entries_per_page(search_key, 100)
 
     # THEN Print PORSCHE models
 
@@ -74,7 +78,7 @@ def test_print_porsche_models(driver, wait):
 
     test_title = (
         f"\nPART 1: {len(column_value_counts)} distinct " +
-        f"{SEARCH_KEY.upper()} MODELS (with counts of their occurrences)")
+        f"{search_key.upper()} MODELS (with counts of their occurrences)")
 
     # dict() used to convert the list back into a dict
     copart_homepage.print_column_value_counts(
@@ -84,16 +88,15 @@ def test_print_porsche_models(driver, wait):
 # Challenge 5, Part 2
 
 
-def test_print_porsche_damages(driver, wait):
-
-    SEARCH_KEY = "porsche"
+@pytest.mark.parametrize("search_key", ["porsche"])
+def test_print_porsche_damages(driver, wait, search_key):
 
     # GIVEN the Copart homepage is displayed
     copart_homepage = CopartHomePage(driver, wait)
 
     # WHEN the user searches for the specified search phrase,
     # and sets the entries per page to 100
-    copart_homepage.search_and_set_entries_per_page(SEARCH_KEY, 100)
+    copart_homepage.search_and_set_entries_per_page(search_key, 100)
 
     # THEN Print PORSCHE damages
 
@@ -119,7 +122,7 @@ def test_print_porsche_damages(driver, wait):
 
     test_title = (
         f"\nPART 2: {len(sorted_column_value_counts_items)} " +
-        f"{SEARCH_KEY.upper()} Damage Types (with counts of their occurrences)"
+        f"{search_key.upper()} Damage Types (with counts of their occurrences)"
     )
 
     # dict() used to convert the list back into a dict

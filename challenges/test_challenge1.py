@@ -9,20 +9,25 @@ To run this test, specify the following in a Terminal:
     pytest challenges\test_challenge1.py
 """
 
+# pip installed
+
+import pytest
+
 # Custom imports
+
 from pages.google_search import GoogleSearchPage
 
 
-def test_google_search(driver, wait):
-
-    SEARCH_KEY = "puppies"
+# Search for "“puppies”"
+@pytest.mark.parametrize("search_key", ["puppies"])
+def test_google_search(driver, wait, search_key):
 
     # GIVEN the Google search page is displayed
     search_page = GoogleSearchPage(driver, wait)
 
     # WHEN the user searches for the specified search phrase
-    search_page.enter_search_key(SEARCH_KEY)
+    search_page.enter_search_key(search_key)
 
     # THEN the page title of the search results contains the specified search
     # phrase
-    assert SEARCH_KEY in search_page.page_title()
+    assert search_key in search_page.page_title()

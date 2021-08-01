@@ -82,10 +82,10 @@ class CopartHomePage:
         Select(entriesPerPageElement).select_by_visible_text(
             str(desired_entries_per_page))
 
-    def search_and_set_entries_per_page(self, searchKey, entriesPerPage):
+    def search_and_set_entries_per_page(self, searchKey, entriesPerPage=None):
         self.enter_search_key(searchKey)
         self.wait_for_spinner_to_come_and_go()
-        if entriesPerPage > 0:
+        if entriesPerPage is not None:
             self.set_entries_per_page_to(entriesPerPage)
             self.wait_for_spinner_to_come_and_go()
 
