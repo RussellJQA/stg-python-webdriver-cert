@@ -194,7 +194,10 @@ class CopartHomePage:
 
         return column_value_counts
 
-    def click_filter_btn(self, filter_button_x_path: str) -> None:
+    def filter_button_x_path(self, panel_link_text: str):
+        return f"//h4[@class='panel-title']/a[text()='{panel_link_text}']"
+
+    def click_filter_btn(self, panel_link_text: str) -> None:
         """
         Click the specified filter button in the page's left-hand
         'Filter Options' sidebar.
@@ -202,11 +205,11 @@ class CopartHomePage:
         For example, click the button which expands the 'Model' filter
         """
 
-        filter_button = self.driver.find_element(By.XPATH,
-                                                 filter_button_x_path)
+        x_path = self.filter_button_x_path(panel_link_text)
+        filter_button = self.driver.find_element(By.XPATH, x_path)
         filter_button.click()
 
-    def set_filter_text_box(self, filter_text_box_x_path: str,
+    def set_filter_text_box(self, panel_link_text: str,
                             filter_text: str) -> None:
         """
         Enter specified filter text in the specified filter text box
@@ -214,20 +217,23 @@ class CopartHomePage:
         For example, enter 'skyline' in the 'Model' filter panel's text box
         """
 
-        filter_text_box = self.driver.find_element(By.XPATH,
-                                                   filter_text_box_x_path)
+        x_path = (f"{self.filter_button_x_path(panel_link_text)}" +
+                  "/ancestor::li//form//input")
+        filter_text_box = self.driver.find_element(By.XPATH, x_path)
         filter_text_box.send_keys(filter_text)
 
-    def check_filter_check_box(self, filter_check_box_x_path: str) -> None:
+    def check_filter_check_box(self, panel_link_text: str,
+                               filter_check_box: str) -> None:
         """
         Check the specified checkbox
 
         For example, check the 'Model' filter's 'Skyline' checkbox
         """
 
-        filter_check_box = self.driver.find_element(By.XPATH,
-                                                    filter_check_box_x_path)
-        filter_check_box.click()
+        x_path = (f"{self.filter_button_x_path(panel_link_text)}" +
+                  f"/ancestor::li//ul//input[@value='{filter_check_box}']")
+        check_box = self.driver.find_element(By.XPATH, x_path)
+        check_box.click()
 
     def set_filter_text_and_check_box(self, filter_panel_link_text: str,
                                       filter_text: str,
@@ -244,21 +250,15 @@ class CopartHomePage:
         success = True
 
         try:
-            filter_button_x_path = ("//h4[@class='panel-title']" +
-                                    f"/a[text()='{filter_panel_link_text}']")
-
             # Click the panel with the specified link text (e.g., 'Model')
-            self.click_filter_btn(filter_button_x_path)
+            self.click_filter_btn(filter_panel_link_text)
 
             # Enter the specified text (e.g. 'Skyline') in the corresponding
             # filter text box
-            self.set_filter_text_box(
-                f"{filter_button_x_path}/ancestor::li//form//input",
-                filter_text)
+            self.set_filter_text_box(filter_panel_link_text, filter_text)
 
-            self.check_filter_check_box(
-                f"{filter_button_x_path}" +
-                f"/ancestor::li//ul//input[@value='{filter_check_box}']")
+            self.check_filter_check_box(filter_panel_link_text,
+                                        filter_check_box)
 
         except (ElementNotInteractableException, NoSuchElementException,
                 TimeoutException) as error:
