@@ -14,24 +14,29 @@ or, for fuller output:
     pytest challenges\test_challenge7.py -rP
 """
 
-# Custom imports
+# pip installed
+from selenium.webdriver.remote.webdriver import WebDriver
 
+# Custom imports
 from pages.copart_home import CopartHomePage
 
 
-def test_navigate_through_most_popular_items(driver, wait):
+def test_navigate_through_most_popular_items(driver: WebDriver, wait):
 
     # GIVEN the Copart homepage is displayed
     copart_page = CopartHomePage(driver, wait)
 
     # WHEN you get a list of the link text and the hrefs for the page's
     # "Most Popular Items", and navigate to each href in the list
-    for item in copart_page.get_most_popular_items_link_text_and_href():
+    most_popular_items_link_text_and_href = (
+        copart_page.get_most_popular_items_link_text_and_href())
+
+    for item in most_popular_items_link_text_and_href:
         link_text = item[0]
         href = item[1]
         print(f"Make or model: {item[0]}, href: {href}")
         driver.get(href)
 
-        # THEN the current URL of the navigated-to page contains the link text
-        # (lowercased)
+        # THEN for each element in the list, the current URL of the
+        # navigated-to page contains the element's link text (lower-cased)
         assert (link_text.lower() in driver.current_url)

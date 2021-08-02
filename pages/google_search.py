@@ -6,23 +6,26 @@ This module contains GoogleSearchPage, the page object for Google's search page
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.remote.webdriver import WebDriver
+from selenium.webdriver.support.wait import WebDriverWait
 
 
 class GoogleSearchPage:
 
     # Initializer
 
-    def __init__(self, driver, wait):
+    def __init__(self, driver: WebDriver, wait: WebDriverWait):
 
         URL = "https://www.google.com"
 
-        self.driver = driver
-        self.wait = wait
+        self.driver: WebDriver = driver
+        self.wait: WebDriverWait = wait
+
         self.driver.get(URL)
 
     # Page Methods
 
-    def enter_search_key(self, searchKey):
+    def enter_search_key(self, searchKey: str):
         """
         Enter the specified search key into main search input and press RETURN
         """

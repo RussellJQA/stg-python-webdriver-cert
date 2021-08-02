@@ -16,7 +16,6 @@ or, for fuller output:
 import json
 
 # pip installed
-
 import pytest_check  # Allow multiple assert failures per test
 
 # Custom imports
@@ -25,10 +24,11 @@ from services.fibonacci import Fibonacci
 from services.numbers_to_words import ConvertNumbertoString
 
 
-def compare_vs_num2words(calculated_sequence_in_words, sequence_length):
+def compare_vs_num2words(calculated_sequence_in_words: list,
+                         sequence_length: int) -> None:
+
     assert len(calculated_sequence_in_words) == sequence_length
-    expected_sequence = Fibonacci().get_expected_fibonacci_sequence(
-        sequence_length)
+
     with open("test_challenge4_expected.json") as json_file:
         expected_sequence_in_num2words = json.load(json_file)
 
@@ -38,10 +38,9 @@ def compare_vs_num2words(calculated_sequence_in_words, sequence_length):
         assert_msg = (
             f"For the generated Fibonacci sequence of length {sequence_length}"
             +
-            f"there's a miscompare for the number at position {count} in the sequence."
-            + f"With the numbers as words, the expected value is:" +
-            f"\t{expected}" + f"and the calculated value is:" +
-            f"\t{calculated}")
+            f" there's a miscompare for the number at position {count} in the"
+            + " sequence. With the numbers as words, the expected value is:" +
+            f"\t{expected} and the calculated value is:\t{calculated}")
         pytest_check.equal(calculated, expected, assert_msg)
 
 
@@ -51,7 +50,8 @@ def compare_vs_num2words(calculated_sequence_in_words, sequence_length):
 DESIRED_SEQUENCE_LENGTH = 50
 
 
-def test_fibonacci_sequence(desired_sequence_length=DESIRED_SEQUENCE_LENGTH):
+def test_fibonacci_sequence(
+        desired_sequence_length: int = DESIRED_SEQUENCE_LENGTH) -> None:
 
     # Get the expected Fibonacci sequence of the specified length
     expected_sequence = Fibonacci().get_expected_fibonacci_sequence(

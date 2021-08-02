@@ -12,15 +12,17 @@ To run this test, specify the following in a Terminal:
 # pip installed
 
 import pytest
+from selenium.webdriver.remote.webdriver import WebDriver
+from selenium.webdriver.support.wait import WebDriverWait
 
 # Custom imports
-
 from pages.copart_home import CopartHomePage
 
 
 @pytest.mark.parametrize("search_key,expected_search_result",
                          [("exotics", "PORSCHE")])
-def test_copart_search(driver, wait, search_key, expected_search_result):
+def test_copart_search(driver: WebDriver, wait: WebDriverWait, search_key: str,
+                       expected_search_result: str) -> None:
 
     # GIVEN the Copart homepage is displayed
     search_page = CopartHomePage(driver, wait)

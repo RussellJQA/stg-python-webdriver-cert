@@ -12,8 +12,8 @@ def get_current_pytest_test_name() -> str:
     # For PYTEST_CURRENT_TEST=
     #   challenges/test_challenge6.py::test_search_for_make_and_model (call)
     # the current pytest test name is "test_search_for_make_and_model"
-    current_pytest_test_name = os.environ.get("PYTEST_CURRENT_TEST").split(
-        ':')[-1].split(' ')[0]
+    pytest_current_test = str(os.environ.get("PYTEST_CURRENT_TEST"))
+    current_pytest_test_name = pytest_current_test.split(':')[-1].split(' ')[0]
 
     return current_pytest_test_name
 

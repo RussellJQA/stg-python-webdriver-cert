@@ -49,30 +49,18 @@ from collections import Counter
 # pip installed
 
 import pytest
+from selenium.webdriver.remote.webdriver import WebDriver
+from selenium.webdriver.support.wait import WebDriverWait
 
 # Custom imports
-
 from pages.copart_home import CopartHomePage
 
 # Challenge 5, Part 1
 
-# def search_set_entries_getcvc(copart_homepage, driver, wait, search_key,
-#                               entries_per_page, column_name):
-
-#     # WHEN the user searches for the specified search phrase,
-#     # and sets the entries per page to 100
-#     copart_homepage.search_and_set_entries_per_page(search_key, 100)
-
-#     # THEN Print PORSCHE models
-
-#     elements = copart_homepage.get_elements_from_column("model")
-#     column_value_counts = copart_homepage.get_column_value_counts(elements)
-
-#     return column_value_counts
-
 
 @pytest.mark.parametrize("search_key", ["porsche"])
-def test_print_porsche_models(driver, wait, search_key):
+def test_print_porsche_models(driver: WebDriver, wait: WebDriverWait,
+                              search_key: str) -> None:
 
     # GIVEN the Copart homepage is displayed
     copart_homepage = CopartHomePage(driver, wait)
@@ -85,7 +73,7 @@ def test_print_porsche_models(driver, wait, search_key):
 
     # THEN Print a sorted list of those values, with their corresponding counts
 
-    # Sort dict into a list, alphabetically except with "MISC" last
+    # Sort dict into a list
     sorted_column_value_counts_items = sorted(
         column_value_counts.items(), key=lambda key_value: key_value[0])
 
@@ -102,7 +90,8 @@ def test_print_porsche_models(driver, wait, search_key):
 
 
 @pytest.mark.parametrize("search_key", ["porsche"])
-def test_print_porsche_damages(driver, wait, search_key):
+def test_print_porsche_damages(driver: WebDriver, wait: WebDriverWait,
+                               search_key: str) -> None:
 
     # GIVEN the Copart homepage is displayed
     copart_homepage = CopartHomePage(driver, wait)
@@ -116,20 +105,20 @@ def test_print_porsche_damages(driver, wait, search_key):
     # THEN Print a sorted list of those values, with their corresponding counts
     # (lumping some miscellanous values together as "MISC")
 
-    # Lump all damages not contained in MAIN_DAMAGE_TYPES as "MISC"
+    # Lump all unspecified damage categories together under the "MISC" category
     MAIN_DAMAGE_TYPES = [
         "FRONT END", "REAR END", "MINOR DENT/SCRATCHES", "UNDERCARRIAGE"
     ]
-    damages_grouped = Counter()
+    lumped_damage_counts = Counter()
     for damage in dict(column_value_counts):
-        damages_grouped.update({
+        lumped_damage_counts.update({
             (damage if damage in MAIN_DAMAGE_TYPES else "MISC"):
             dict(column_value_counts)[damage]
         })
 
     # Sort dict into a list, alphabetically except with "MISC" last
     sorted_column_value_counts_items = sorted(
-        damages_grouped.items(),
+        lumped_damage_counts.items(),
         key=lambda key_value: ("ZZZZZ"
                                if (key_value[0] == "MISC") else key_value[0]))
 

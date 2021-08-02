@@ -1,20 +1,24 @@
 """
-This module contains a class which interfaces with Selenium's save_screenshot()
-function.
+This class interfaces with Selenium's save_screenshot() function.
 """
 
 from pathlib import Path
+
+# pip installed
+from selenium.webdriver.remote.webdriver import WebDriver
 
 
 class SeleniumScreenshots:
 
     # Initializer
 
-    def __init__(self, driver, screenshot_fn):
-        self.driver = driver
-        self.screenshot_fn = screenshot_fn
+    def __init__(self, driver: WebDriver, screenshot_fn: str):
 
-    def take_screenshot(self, path="screenshots"):
+        self.driver: WebDriver = driver
+        self.screenshot_fn: str = screenshot_fn
+
+    def take_screenshot(self, path="screenshots") -> None:
+
         screenshots_fldr = Path(path)
         # Create screenshots folder (if it doesn't already exist)
         screenshots_fldr.mkdir(exist_ok=True)
