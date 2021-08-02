@@ -1,12 +1,14 @@
 """
-This class deals with converting numbers to their corresponding strings
+This class is used to convert numbers (e.g., 21) to their corresponding strings
+(e.g., "twenty one")
 """
 
 
 class ConvertNumbertoString:
-    def triad_to_string(self, one_to_three_digit_int) -> str:
+    def triad_to_string(self, one_to_three_digit_int: int) -> str:
 
-        assert_msg = f"The input {str(one_to_three_digit_int)} should be a 1-to-3 digit integer."
+        assert_msg = (f"The input {str(one_to_three_digit_int)} " +
+                      "should be a 1-to-3 digit integer.")
         assert 0 <= one_to_three_digit_int <= 999, assert_msg
 
         NUM_LT_TWENTY = {
@@ -91,11 +93,12 @@ class ConvertNumbertoString:
 
         return result
 
-    def number_to_words(self, number) -> str:
+    def number_to_words(self, number: int) -> str:
         """
         Returns the input integer number represented as a string of words.
-        For example, for the integer 12586269025, it will return
-        "twelve billion, five hundred eighty six million, two hundred sixty nine thousand twenty five").
+        For example, for the integer 12586269025, it will return:
+            twelve billion, five hundred eighty six million,
+                two hundred sixty nine thousand twenty five
         """
 
         if number == 0:
@@ -172,5 +175,21 @@ if __name__ == '__main__':
     # The Fibonacci number for n=300
     num = 222232244629420445529739893461909967206666939096499764990979600
     # The same number represented as words
-    num_as_words = "two hundred twenty two novemdecillion, two hundred thirty two octodecillion, two hundred forty four septdecillion, six hundred twenty nine sexdecillion, four hundred twenty quindecillion, four hundred forty five quattuordecillion, five hundred twenty nine tredecillion, seven hundred thirty nine duodecillion, eight hundred ninety three undecillion, four hundred sixty one decillion, nine hundred nine nonillion, nine hundred sixty seven octillion, two hundred six septillion, six hundred sixty six sextillion, nine hundred thirty nine quintillion, ninety six quadrillion, four hundred ninety nine trillion, seven hundred sixty four billion, nine hundred ninety million, nine hundred seventy nine thousand, six hundred"
+    num_as_words = (
+        "two hundred twenty two novemdecillion, " +
+        "two hundred thirty two octodecillion, " +
+        "two hundred forty four septdecillion, " +
+        "six hundred twenty nine sexdecillion, " +
+        "four hundred twenty quindecillion, " +
+        "four hundred forty five quattuordecillion, " +
+        "five hundred twenty nine tredecillion, " +
+        "seven hundred thirty nine duodecillion, " +
+        "eight hundred ninety three undecillion, " +
+        "four hundred sixty one decillion, nine hundred nine nonillion, " +
+        "nine hundred sixty seven octillion, two hundred six septillion, " +
+        "six hundred sixty six sextillion, " +
+        "nine hundred thirty nine quintillion, ninety six quadrillion, " +
+        "four hundred ninety nine trillion, seven hundred sixty four billion, "
+        + "nine hundred ninety million, nine hundred seventy nine thousand, " +
+        "six hundred")
     assert ConvertNumbertoString().number_to_words(num) == num_as_words

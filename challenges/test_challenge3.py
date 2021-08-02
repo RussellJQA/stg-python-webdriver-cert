@@ -18,11 +18,17 @@ or, for fuller output:
     pytest challenges\test_challenge3.py -rP
 """
 
+# pip installed
+
+from selenium.webdriver.remote.webdriver import WebDriver
+from selenium.webdriver.support.wait import WebDriverWait
+
 # Custom imports
 from pages.copart_home import CopartHomePage
 
 
-def test_get_list_of_most_popular_items(driver, wait):
+def test_get_list_of_most_popular_items(driver: WebDriver,
+                                        wait: WebDriverWait) -> None:
 
     # GIVEN the Copart homepage is displayed
     copart_page = CopartHomePage(driver, wait)

@@ -4,12 +4,14 @@ This module contains CopartHomePage, page object for Copart.com's home page
 
 # pip installed
 
+from selenium.webdriver.common.by import By
 from selenium.common.exceptions import (ElementNotInteractableException,
                                         NoSuchElementException,
                                         TimeoutException)
-from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support.ui import Select
 
 # Custom imports
@@ -22,17 +24,18 @@ class CopartHomePage:
 
     # Initializer
 
-    def __init__(self, driver, wait):
+    def __init__(self, driver: WebDriver, wait: WebDriverWait):
 
         URL = "https://www.copart.com"
 
-        self.driver = driver
-        self.wait = wait
+        self.driver: WebDriver = driver
+        self.wait: WebDriverWait = wait
+
         self.driver.get(URL)
 
     # Page Methods
 
-    def enter_search_key(self, searchKey):
+    def enter_search_key(self, searchKey: str) -> None:
         """
         Enter the specified search key into main search input and press RETURN
         """
@@ -42,7 +45,7 @@ class CopartHomePage:
         self.driver.find_element(*MAIN_SEARCH_INPUT).send_keys(
             searchKey, Keys.RETURN)
 
-    def wait_for_spinner_to_come_and_go(self):
+    def wait_for_spinner_to_come_and_go(self) -> None:
         """
         Wait for the progress spinner to be present and then become invisible
         """
@@ -52,19 +55,19 @@ class CopartHomePage:
         spinner = self.wait.until(EC.presence_of_element_located(SPINNER))
         self.wait.until(EC.invisibility_of_element_located(spinner))
 
-    def get_table_text(self):
+    def get_table_text(self) -> str:
         """Return the text from the search results table WebElement"""
 
         TABLE = (By.XPATH, "//table[@id='serverSideDataTable']")
 
         return self.driver.find_element(*TABLE).text
 
-    def click_link(self, link_text):
+    def click_link(self, link_text: str) -> None:
         """Click the link with the specified link text"""
 
         self.driver.find_element(By.LINK_TEXT, link_text).click()
 
-    def get_most_popular_items(self):
+    def get_most_popular_items(self) -> list:
         """
         Return a sorted list of the links (WebElements) from the
         'Most Popular Items' section of the page's 'Trending' tab
@@ -77,11 +80,11 @@ class CopartHomePage:
         self.click_link("Trending")
 
         most_popular_items = self.driver.find_elements(
-            By.XPATH, MOST_POPULAR_ITEM_LINKS)
+            *MOST_POPULAR_ITEM_LINKS)
 
         return sorted(most_popular_items, key=lambda item: item.text)
 
-    def get_most_popular_items_link_text_and_href(self):
+    def get_most_popular_items_link_text_and_href(self) -> list:
         """
         Return a sorted list of the links from the 'Most Popular Items' section
         of the page's 'Trending' tab
@@ -95,7 +98,7 @@ class CopartHomePage:
         return [[item.text, item.get_attribute("href")]
                 for item in most_popular_items]
 
-    def set_entries_per_page_to(self, desired_entries_per_page):
+    def set_entries_per_page_to(self, desired_entries_per_page: int) -> None:
         """
         Set the entries per page, using the 'Show {20/50/100} entries' dropdown
         selector
@@ -111,7 +114,9 @@ class CopartHomePage:
         Select(entriesPerPageElement).select_by_visible_text(
             str(desired_entries_per_page))
 
-    def search_and_set_entries_per_page(self, searchKey, entriesPerPage=None):
+    def search_and_set_entries_per_page(self,
+                                        searchKey: str,
+                                        entriesPerPage: int = None) -> None:
         """Search for the specified search key and set the entries per page"""
 
         self.enter_search_key(searchKey)
@@ -121,7 +126,7 @@ class CopartHomePage:
             self.set_entries_per_page_to(entriesPerPage)
             self.wait_for_spinner_to_come_and_go()
 
-    def get_elements_from_column(self, column_name):
+    def get_elements_from_column(self, column_name: str) -> list:
         """Get all WebElements from the specified column"""
 
         COLUMN_XPATH_LOCATORS = {
@@ -137,7 +142,7 @@ class CopartHomePage:
         return self.driver.find_elements(By.XPATH,
                                          COLUMN_XPATH_LOCATORS[column_name])
 
-    def get_web_element_value_counts(self, elements):
+    def get_web_element_value_counts(self, elements) -> dict:
         """
         Get counts for each of the distinct text values from the specified
         WebElements
@@ -164,8 +169,8 @@ class CopartHomePage:
 
         return web_element_value_counts
 
-    def print_web_element_value_counts(self, test_title,
-                                       web_element_value_counts):
+    def print_web_element_value_counts(self, test_title: str,
+                                       web_element_value_counts) -> None:
         """
         Prints the count for each of the distinct text values from the
         specified WebElements
@@ -175,8 +180,8 @@ class CopartHomePage:
         for key, count in web_element_value_counts.items():
             print(f"{key} - {count}")
 
-    def search_set_entries_getcvc(self, search_key, entries_per_page,
-                                  column_name):
+    def search_set_entries_getcvc(self, search_key: str, entries_per_page: int,
+                                  column_name: str) -> dict:
         """
         Search for the specified search key, set the entries per page, get all
         WebElements from the specified column, and get counts for each of the
@@ -186,9 +191,10 @@ class CopartHomePage:
         self.search_and_set_entries_per_page(search_key, 100)
         elements = self.get_elements_from_column(column_name)
         column_value_counts = self.get_web_element_value_counts(elements)
+
         return column_value_counts
 
-    def click_filter_btn(self, filter_button_x_path):
+    def click_filter_btn(self, filter_button_x_path: str) -> None:
         """
         Click the specified filter button in the page's left-hand
         'Filter Options' sidebar.
@@ -200,7 +206,8 @@ class CopartHomePage:
                                                  filter_button_x_path)
         filter_button.click()
 
-    def set_filter_text_box(self, filter_text_box_x_path, filter_text):
+    def set_filter_text_box(self, filter_text_box_x_path: str,
+                            filter_text: str) -> None:
         """
         Enter specified filter text in the specified filter text box
 
@@ -211,7 +218,7 @@ class CopartHomePage:
                                                    filter_text_box_x_path)
         filter_text_box.send_keys(filter_text)
 
-    def check_filter_check_box(self, filter_check_box_x_path):
+    def check_filter_check_box(self, filter_check_box_x_path: str) -> None:
         """
         Check the specified checkbox
 
@@ -222,8 +229,9 @@ class CopartHomePage:
                                                     filter_check_box_x_path)
         filter_check_box.click()
 
-    def set_filter_text_and_check_box(self, filter_panel_link_text,
-                                      filter_text, filter_check_box) -> bool:
+    def set_filter_text_and_check_box(self, filter_panel_link_text: str,
+                                      filter_text: str,
+                                      filter_check_box: str) -> bool:
         """
         In the page's page's left-hand 'Filter Options' sidebar:
             - Click the panel with the specified link text (e.g., 'Model')
@@ -255,7 +263,7 @@ class CopartHomePage:
         except (ElementNotInteractableException, NoSuchElementException,
                 TimeoutException) as error:
 
-            # Screenshot functionality required for Challenge 6
+            # Screenshot functionality for Challenge 6
             SeleniumScreenshots(
                 self.driver,
                 f"{get_pytest_name_with_timestamp()}.png").take_screenshot()

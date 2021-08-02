@@ -131,3 +131,4 @@ dmypy.json
 # Custom ignores
 /.vscode
 /screenshots/*.png
+/typings

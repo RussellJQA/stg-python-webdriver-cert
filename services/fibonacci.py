@@ -12,7 +12,8 @@ class Fibonacci:
     # This is a list of the first 301 Fibonacci numbers from
     # "The first 300 Fibonacci numbers, completely factorised"
     # at http://www.maths.surrey.ac.uk/hosted-sites/R.Knott/Fibonacci/fibtable.html
-    # [The referenced Web page lists 301 Fibonacci numbers, those for n=0 through n=300.]
+    # [The referenced Web page lists 301 Fibonacci numbers,
+    #  those for n=0 through n=300.]
     EXPECTED_FIBONACCI_SEQUENCE = [
         0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597,
         2584, 4181, 6765, 10946, 17711, 28657, 46368, 75025, 121393, 196418,
@@ -206,7 +207,7 @@ class Fibonacci:
     # Initializer
 
     def __init__(self):
-        self.max_sequence_length = len(self.EXPECTED_FIBONACCI_SEQUENCE)
+        self.max_sequence_length: int = len(self.EXPECTED_FIBONACCI_SEQUENCE)
 
     # Cache of known Fibonacci numbers
     known_cache = {
@@ -214,17 +215,16 @@ class Fibonacci:
         1: EXPECTED_FIBONACCI_SEQUENCE[1]
     }
 
-    def get_expected_fibonacci_sequence(self, sequence_length) -> list:
+    def get_expected_fibonacci_sequence(self, sequence_length: int) -> list:
 
         if not (isinstance(sequence_length, int) and
                 (1 <= sequence_length <= self.max_sequence_length)):
-            raise ValueError(
-                f"sequence_length must be an integer from 1 to {self.max_sequence_length} (inclusive)"
-            )
+            raise ValueError("sequence_length must be an integer from 1 to " +
+                             f"{self.max_sequence_length} (inclusive)")
 
         return self.EXPECTED_FIBONACCI_SEQUENCE[:sequence_length]
 
-    def get_fibonacci_number(self, n) -> int:
+    def get_fibonacci_number(self, n: int) -> int:
         """Recursively generate the nth Fibonacci number"""
 
         if not isinstance(n, int) or n < 0:
@@ -261,3 +261,5 @@ if __name__ == '__main__':
         fibonacci.max_sequence_length)
     assert list(Fibonacci().generate_fibonacci_sequence(sequence_length)
                 ) == expected_sequence, "Error in generated Fibonacci sequence"
+
+    print(type(expected_sequence))
