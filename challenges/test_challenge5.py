@@ -56,6 +56,20 @@ from pages.copart_home import CopartHomePage
 
 # Challenge 5, Part 1
 
+# def search_set_entries_getcvc(copart_homepage, driver, wait, search_key,
+#                               entries_per_page, column_name):
+
+#     # WHEN the user searches for the specified search phrase,
+#     # and sets the entries per page to 100
+#     copart_homepage.search_and_set_entries_per_page(search_key, 100)
+
+#     # THEN Print PORSCHE models
+
+#     elements = copart_homepage.get_elements_from_column("model")
+#     column_value_counts = copart_homepage.get_column_value_counts(elements)
+
+#     return column_value_counts
+
 
 @pytest.mark.parametrize("search_key", ["porsche"])
 def test_print_porsche_models(driver, wait, search_key):
@@ -63,14 +77,13 @@ def test_print_porsche_models(driver, wait, search_key):
     # GIVEN the Copart homepage is displayed
     copart_homepage = CopartHomePage(driver, wait)
 
-    # WHEN the user searches for the specified search phrase,
-    # and sets the entries per page to 100
-    copart_homepage.search_and_set_entries_per_page(search_key, 100)
+    # WHEN the user searches for the specified search phrase (e.g., "porsche"),
+    # sets the entries per page (e.g., to 100), and get counts for each of the
+    # distinct values for a specified column (e.g., "model")
+    column_value_counts = copart_homepage.search_set_entries_getcvc(
+        search_key, 100, "model")
 
-    # THEN Print PORSCHE models
-
-    elements = copart_homepage.get_elements_from_column("model")
-    column_value_counts = copart_homepage.get_column_value_counts(elements)
+    # THEN Print a sorted list of those values, with their corresponding counts
 
     # Sort dict into a list, alphabetically except with "MISC" last
     sorted_column_value_counts_items = sorted(
@@ -81,7 +94,7 @@ def test_print_porsche_models(driver, wait, search_key):
         f"{search_key.upper()} MODELS (with counts of their occurrences)")
 
     # dict() used to convert the list back into a dict
-    copart_homepage.print_column_value_counts(
+    copart_homepage.print_web_element_value_counts(
         test_title, dict(sorted_column_value_counts_items))
 
 
@@ -94,16 +107,16 @@ def test_print_porsche_damages(driver, wait, search_key):
     # GIVEN the Copart homepage is displayed
     copart_homepage = CopartHomePage(driver, wait)
 
-    # WHEN the user searches for the specified search phrase,
-    # and sets the entries per page to 100
-    copart_homepage.search_and_set_entries_per_page(search_key, 100)
+    # WHEN the user searches for the specified search phrase (e.g., "porsche"),
+    # sets the entries per page (e.g., to 100), and get counts for each of the
+    # distinct values for a specified column (e.g., "damage")
+    column_value_counts = copart_homepage.search_set_entries_getcvc(
+        search_key, 100, "damage")
 
-    # THEN Print PORSCHE damages
+    # THEN Print a sorted list of those values, with their corresponding counts
+    # (lumping some miscellanous values together as "MISC")
 
-    elements = copart_homepage.get_elements_from_column("damage")
-    column_value_counts = copart_homepage.get_column_value_counts(elements)
-
-    # Group all damages not contained in MAIN_DAMAGE_TYPES as "MISC"
+    # Lump all damages not contained in MAIN_DAMAGE_TYPES as "MISC"
     MAIN_DAMAGE_TYPES = [
         "FRONT END", "REAR END", "MINOR DENT/SCRATCHES", "UNDERCARRIAGE"
     ]
@@ -126,5 +139,5 @@ def test_print_porsche_damages(driver, wait, search_key):
     )
 
     # dict() used to convert the list back into a dict
-    copart_homepage.print_column_value_counts(
+    copart_homepage.print_web_element_value_counts(
         test_title, dict(sorted_column_value_counts_items))
