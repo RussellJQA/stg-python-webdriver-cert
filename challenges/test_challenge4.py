@@ -13,27 +13,29 @@ or, for fuller output:
     pytest challenges\test_challenge4.py -rP
 """
 
-import json
-
 # pip installed
 import pytest_check  # Allow multiple assert failures per test
 
 # Custom imports
 
+# Custom imports
+from services.expected_fibonacci_numbers import ExpectedFibonacciNumbers
+from services.expected_fibonacci_words import ExpectedFibonacciWords
 from services.fibonacci import Fibonacci
 from services.numbers_to_words import ConvertNumbertoString
 
 
-def compare_vs_num2words(calculated_sequence_in_words: list,
-                         sequence_length: int) -> None:
+def compare_calculated_words_vs_expected_words(
+        calculated_sequence_in_words: list, sequence_length: int) -> None:
 
     assert len(calculated_sequence_in_words) == sequence_length
 
-    with open("test_challenge4_expected.json") as json_file:
-        expected_sequence_in_num2words = json.load(json_file)
+    max_sequence_length = ExpectedFibonacciWords().get_max_sequence_length()
+    expected_sequence_in_words = ExpectedFibonacciWords(
+    ).get_expected_fibonacci_words(max_sequence_length)
 
     for count in range(sequence_length):
-        expected = expected_sequence_in_num2words[count]
+        expected = expected_sequence_in_words[count]
         calculated = calculated_sequence_in_words[count]
         assert_msg = (
             f"For the generated Fibonacci sequence of length {sequence_length}"
@@ -44,18 +46,16 @@ def compare_vs_num2words(calculated_sequence_in_words: list,
         pytest_check.equal(calculated, expected, assert_msg)
 
 
-# This has been tested with desired_sequence_length in {20, 50, 100, 301}.
-# But since desired_sequence_length==301 generates a large amount
-# (over 100,000 characters) of output, we'll just use 50 below.
-DESIRED_SEQUENCE_LENGTH = 50
+# If you want less output, you can vary the DESIRED_SEQUENCE_LENGTH below
+DESIRED_SEQUENCE_LENGTH = 301  # Generates over 100,000 characters of output
 
 
 def test_fibonacci_sequence(
         desired_sequence_length: int = DESIRED_SEQUENCE_LENGTH) -> None:
 
     # Get the expected Fibonacci sequence of the specified length
-    expected_sequence = Fibonacci().get_expected_fibonacci_sequence(
-        desired_sequence_length)
+    expected_sequence = ExpectedFibonacciNumbers(
+    ).get_expected_fibonacci_sequence(desired_sequence_length)
 
     # Calculate the Fibonacci sequence of the specified length
     calculated_sequence = list(
@@ -72,7 +72,6 @@ def test_fibonacci_sequence(
     assert calculated_sequence == expected_sequence
 
     # Compare the calculated sequence converted to words by
-    #   ConvertNumbertoString.number_to_words()
-    # with the expected sequence converted to words by
-    #   num2words.num2words()
-    compare_vs_num2words(calculated_sequence_in_words, desired_sequence_length)
+    # with the expected sequence converted to words.
+    compare_calculated_words_vs_expected_words(calculated_sequence_in_words,
+                                               desired_sequence_length)

@@ -107,8 +107,9 @@ class ConvertNumbertoString:
             # Groupings were taken from "Names for Powers of Ten" at
             # https://amazingmathclub.wordpress.com/names-for-power-of-ten/.
             #
-            # For ease of comparison with num2words, where there was more than
-            # 1 name to choose from, the name used by num2words was chosen.
+            # For ease of comparison with output from the
+            # https://pypi.org/project/num2words/ project, where there was more
+            # than 1 name to choose from, the name used by num2words was chosen
             TRIAD_GROUPINGS = {
                 0: "",
                 1: "thousand",

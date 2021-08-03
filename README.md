@@ -24,17 +24,6 @@ That installs the following Python packages, along with their dependencies:
 - [selenium:](https://pypi.org/project/selenium/) the Python bindings for Selenium WebDriver
 - [webdriver-manager:](https://pypi.org/project/webdriver-manager/) manages WebDriver installs, so you don't have to
 
-[Although build_test_challenge4_expected.py references PyPI's [num2words](https://pypi.org/project/num2words/) package:
-
-```python
-from num2words import num2words  # Used only to generate expected results for challenge 4
-```
-
-as the comment says, num2words is used only to generate a file of expected results for challenge 4.
-Since that file (test_challenge4_expected.json) has already been generated
-(and included in this repository), num2words is no longer strictly needed.
-That's why num2words has not been included in requirements.txt.]
-
 ## Implementation Notes
 
 1. This code has been tested (using virtual environments) with both Python 3.7.9 and Python 3.9.5, using the Chrome browser in Windows 8.1 Professional.
