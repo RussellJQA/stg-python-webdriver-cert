@@ -1,4 +1,15 @@
-# pylint: disable=line-too-long
+"""
+The ExpectedFibonacciWords class provides a function which returns a list of
+the first 301 Fibonacci numbers (as words).
+"""
+
+# Import Python 3.9+'s ability to type hint lists and dictionaries directly
+# into 3.7 <= Python < 3.9. Without this, you need to use
+# "from typing import List" along with "List[int]", "List[str]",
+# "from typing import Dict" along with "dict[str, int]", etc.
+from __future__ import annotations
+
+
 class ExpectedFibonacciWords:
 
     _EXPECTED_FIBONACCI_WORDS = [
@@ -307,13 +318,13 @@ class ExpectedFibonacciWords:
 
     # Initializer
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._max_sequence_length: int = len(self._EXPECTED_FIBONACCI_WORDS)
 
-    def get_max_sequence_length(self):
+    def get_max_sequence_length(self) -> int:
         return self._max_sequence_length
 
-    def get_expected_fibonacci_words(self, sequence_length: int) -> list:
+    def get_expected_fibonacci_words(self, sequence_length: int) -> list[str]:
 
         if not (isinstance(sequence_length, int) and
                 (1 <= sequence_length <= self.get_max_sequence_length())):

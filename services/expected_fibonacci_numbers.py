@@ -1,10 +1,20 @@
-class ExpectedFibonacciNumbers:
+"""
+The ExpectedFibonacciNumbers class provides a function which returns a list of
+the first 301 Fibonacci numbers. The numbers themselves were taken from
+"The first 300 Fibonacci numbers, completely factorised".
+at http://www.maths.surrey.ac.uk/hosted-sites/R.Knott/Fibonacci/fibtable.html
+[The referenced Web page lists 301 Fibonacci numbers,
+ those for n=0 through n=300.]
+"""
 
-    # This is a list of the first 301 Fibonacci numbers from
-    # "The first 300 Fibonacci numbers, completely factorised"
-    # at http://www.maths.surrey.ac.uk/hosted-sites/R.Knott/Fibonacci/fibtable.html
-    # [The referenced Web page lists 301 Fibonacci numbers,
-    #  those for n=0 through n=300.]
+# Import Python 3.9+'s ability to type hint lists and dictionaries directly
+# into 3.7 <= Python < 3.9. Without this, you need to use
+# "from typing import List" along with "List[int]", "List[str]",
+# "from typing import Dict" along with "dict[str, int]", etc.
+from __future__ import annotations
+
+
+class ExpectedFibonacciNumbers:
 
     _EXPECTED_FIBONACCI_SEQUENCE = [
         0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597,
@@ -198,13 +208,14 @@ class ExpectedFibonacciNumbers:
 
     # Initializer
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._max_sequence_length: int = len(self._EXPECTED_FIBONACCI_SEQUENCE)
 
-    def get_max_sequence_length(self):
+    def get_max_sequence_length(self) -> int:
         return self._max_sequence_length
 
-    def get_expected_fibonacci_sequence(self, sequence_length: int) -> list:
+    def get_expected_fibonacci_sequence(self,
+                                        sequence_length: int) -> list[int]:
 
         if not (isinstance(sequence_length, int) and
                 (1 <= sequence_length <= self.get_max_sequence_length())):

@@ -1,5 +1,5 @@
 """
-This module contains GoogleSearchPage, the page object for Google's search page
+The GoogleSearchPage class is the page object for Google's search page.
 """
 
 # pip installed
@@ -14,7 +14,7 @@ class GoogleSearchPage:
 
     # Initializer
 
-    def __init__(self, driver: WebDriver, wait: WebDriverWait):
+    def __init__(self, driver: WebDriver, wait: WebDriverWait) -> None:
 
         URL = "https://www.google.com"
 
@@ -25,7 +25,7 @@ class GoogleSearchPage:
 
     # Page Methods
 
-    def enter_search_key(self, searchKey: str):
+    def enter_search_key(self, searchKey: str) -> None:
         """
         Enter the specified search key into main search input and press RETURN
         """

@@ -15,13 +15,16 @@ or, for fuller output:
 """
 
 # pip installed
+
 from selenium.webdriver.remote.webdriver import WebDriver
+from selenium.webdriver.support.wait import WebDriverWait
 
 # Custom imports
 from pages.copart_home import CopartHomePage
 
 
-def test_navigate_through_most_popular_items(driver: WebDriver, wait):
+def test_navigate_through_most_popular_items(driver: WebDriver,
+                                             wait: WebDriverWait):
 
     # GIVEN the Copart homepage is displayed
     copart_page = CopartHomePage(driver, wait)

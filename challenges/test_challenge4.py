@@ -26,7 +26,7 @@ from services.numbers_to_words import ConvertNumbertoString
 
 
 def compare_calculated_words_vs_expected_words(
-        calculated_sequence_in_words: list, sequence_length: int) -> None:
+        calculated_sequence_in_words: list[str], sequence_length: int) -> None:
 
     assert len(calculated_sequence_in_words) == sequence_length
 

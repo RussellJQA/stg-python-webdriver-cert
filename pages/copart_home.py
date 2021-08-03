@@ -1,6 +1,14 @@
 """
-This module contains CopartHomePage, page object for Copart.com's home page
+The CopartHomePage class is the page object for Copart.com's home page.
 """
+
+# Import Python 3.9+'s ability to type hint lists and dictionaries directly
+# into 3.7 <= Python < 3.9. Without this, you need to use
+# "from typing import List" along with "List[int]", "List[str]",
+# "from typing import Dict" along with "dict[str, int]", etc.
+
+from __future__ import annotations
+from typing import Optional
 
 # pip installed
 
@@ -10,13 +18,14 @@ from selenium.common.exceptions import (ElementNotInteractableException,
                                         TimeoutException)
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.remote.webdriver import WebDriver
+from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support.ui import Select
 
 # Custom imports
 
-from services.pytest_services import get_pytest_name_with_timestamp
+from services.pytest_services import PytestServices
 from services.selenium_screenshots import SeleniumScreenshots
 
 
@@ -24,7 +33,7 @@ class CopartHomePage:
 
     # Initializer
 
-    def __init__(self, driver: WebDriver, wait: WebDriverWait):
+    def __init__(self, driver: WebDriver, wait: WebDriverWait) -> None:
 
         URL = "https://www.copart.com"
 
@@ -67,7 +76,7 @@ class CopartHomePage:
 
         self.driver.find_element(By.LINK_TEXT, link_text).click()
 
-    def get_most_popular_items(self) -> list:
+    def get_most_popular_items(self) -> list[WebElement]:
         """
         Return a sorted list of the links (WebElements) from the
         'Most Popular Items' section of the page's 'Trending' tab
@@ -84,7 +93,7 @@ class CopartHomePage:
 
         return sorted(most_popular_items, key=lambda item: item.text)
 
-    def get_most_popular_items_link_text_and_href(self) -> list:
+    def get_most_popular_items_link_text_and_href(self) -> list[list[str]]:
         """
         Return a sorted list of the links from the 'Most Popular Items' section
         of the page's 'Trending' tab
@@ -114,9 +123,10 @@ class CopartHomePage:
         Select(entriesPerPageElement).select_by_visible_text(
             str(desired_entries_per_page))
 
-    def search_and_set_entries_per_page(self,
-                                        searchKey: str,
-                                        entriesPerPage: int = None) -> None:
+    def search_and_set_entries_per_page(
+            self,
+            searchKey: str,
+            entriesPerPage: Optional[int] = None) -> None:
         """Search for the specified search key and set the entries per page"""
 
         self.enter_search_key(searchKey)
@@ -126,7 +136,7 @@ class CopartHomePage:
             self.set_entries_per_page_to(entriesPerPage)
             self.wait_for_spinner_to_come_and_go()
 
-    def get_elements_from_column(self, column_name: str) -> list:
+    def get_elements_from_column(self, column_name: str) -> list[WebElement]:
         """Get all WebElements from the specified column"""
 
         COLUMN_XPATH_LOCATORS = {
@@ -142,7 +152,7 @@ class CopartHomePage:
         return self.driver.find_elements(By.XPATH,
                                          COLUMN_XPATH_LOCATORS[column_name])
 
-    def get_web_element_value_counts(self, elements) -> dict:
+    def get_web_element_value_counts(self, elements) -> dict[str, int]:
         """
         Get counts for each of the distinct text values from the specified
         WebElements
@@ -181,7 +191,7 @@ class CopartHomePage:
             print(f"{key} - {count}")
 
     def search_set_entries_getcvc(self, search_key: str, entries_per_page: int,
-                                  column_name: str) -> dict:
+                                  column_name: str) -> dict[str, int]:
         """
         Search for the specified search key, set the entries per page, get all
         WebElements from the specified column, and get counts for each of the
@@ -212,9 +222,8 @@ class CopartHomePage:
     def set_filter_text_box(self, panel_link_text: str,
                             filter_text: str) -> None:
         """
-        Enter specified filter text in the specified filter text box
-
-        For example, enter 'skyline' in the 'Model' filter panel's text box
+        Enter the specified filter text (e.g., 'skyline') in the specified
+        filter text box (e.g., the filter panel's 'Model' text box)
         """
 
         x_path = (f"{self.filter_button_x_path(panel_link_text)}" +
@@ -257,6 +266,7 @@ class CopartHomePage:
             # filter text box
             self.set_filter_text_box(filter_panel_link_text, filter_text)
 
+            # Check the corresponding filter check box
             self.check_filter_check_box(filter_panel_link_text,
                                         filter_check_box)
 
@@ -266,7 +276,8 @@ class CopartHomePage:
             # Screenshot functionality for Challenge 6
             SeleniumScreenshots(
                 self.driver,
-                f"{get_pytest_name_with_timestamp()}.png").take_screenshot()
+                f"{PytestServices().get_pytest_name_with_timestamp()}.png"
+            ).take_screenshot()
 
             error_message = (
                 f"\nfilter checkbox for panel: {filter_panel_link_text}, " +

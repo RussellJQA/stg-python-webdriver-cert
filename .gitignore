@@ -131,4 +131,6 @@ dmypy.json
 # Custom ignores
 /.vscode
 /screenshots/*.png
+
+# Type stub(s) from typeshet (e.g., https://github.com/python/typeshed/tree/master/stubs/selenium)
 /typings

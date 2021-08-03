@@ -1,7 +1,7 @@
 """
-This class has functions for dealing with Fibonacci numbers, and Fibonacci
-sequences. For an explanation of Fibonacci numbers and Fibonacci sequences,
-see https://en.wikipedia.org/wiki/Fibonacci_number
+The Fibonacci class has functions for dealing with Fibonacci numbers, and
+Fibonacci sequences. For an explanation of Fibonacci numbers and Fibonacci
+sequences, see https://en.wikipedia.org/wiki/Fibonacci_number.
 """
 
 from typing import Generator
