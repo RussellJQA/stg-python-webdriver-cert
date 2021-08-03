@@ -13,6 +13,12 @@ or, for fuller output:
     pytest challenges\test_challenge4.py -rP
 """
 
+# Import Python 3.9+'s ability to type hint lists and dictionaries directly
+# into 3.7 <= Python < 3.9. Without this, you need to use
+# "from typing import List" along with "List[int]", "List[str]",
+# "from typing import Dict" along with "dict[str, int]", etc.
+from __future__ import annotations
+
 # pip installed
 import pytest_check  # Allow multiple assert failures per test
 
