@@ -31,25 +31,31 @@ from services.fibonacci import Fibonacci
 from services.numbers_to_words import ConvertNumbertoString
 
 
-def compare_calculated_words_vs_expected_words(
-        calculated_sequence_in_words: list[str], sequence_length: int) -> None:
+def compare_actual_vs_expected(
+        sequence_length: int, calculated_sequence_in_numbers: list[int],
+        calculated_sequence_in_words: list[str]) -> None:
 
-    assert len(calculated_sequence_in_words) == sequence_length
+    expected_sequence_in_numbers = ExpectedFibonacciNumbers(
+    ).get_expected_fibonacci_sequence(sequence_length)
 
-    max_sequence_length = ExpectedFibonacciWords().get_max_sequence_length()
     expected_sequence_in_words = ExpectedFibonacciWords(
-    ).get_expected_fibonacci_words(max_sequence_length)
+    ).get_expected_fibonacci_words(sequence_length)
 
     for count in range(sequence_length):
-        expected = expected_sequence_in_words[count]
-        calculated = calculated_sequence_in_words[count]
-        assert_msg = (
-            f"For the generated Fibonacci sequence of length {sequence_length}"
-            +
-            f" there's a miscompare for the number at position {count} in the"
-            + " sequence. With the numbers as words, the expected value is:" +
-            f"\t{expected} and the calculated value is:\t{calculated}")
-        pytest_check.equal(calculated, expected, assert_msg)
+
+        actual_number = calculated_sequence_in_numbers[count]
+        expected_number = expected_sequence_in_numbers[count]
+        assert_msg1 = (f"\n\nThe Fibonncaci number for n={count} is:" +
+                       f"\n\t{actual_number}\nrather than " +
+                       f"\n\t{expected_number}\n")
+        pytest_check.equal(actual_number, expected_number, assert_msg1)
+
+        actual_words = calculated_sequence_in_words[count]
+        expected_words = expected_sequence_in_words[count]
+        assert_msg2 = (
+            f"\n\nThe Fibonncaci number for n={count} is (in words):" +
+            f"\n\t{actual_words}\nrather than " + f"\n\t{expected_words}\n")
+        pytest_check.equal(actual_words, expected_words, assert_msg2)
 
 
 # If you want less output, you can vary the DESIRED_SEQUENCE_LENGTH below
@@ -59,25 +65,18 @@ DESIRED_SEQUENCE_LENGTH = 301  # Generates over 100,000 characters of output
 def test_fibonacci_sequence(
         desired_sequence_length: int = DESIRED_SEQUENCE_LENGTH) -> None:
 
-    # Get the expected Fibonacci sequence of the specified length
-    expected_sequence = ExpectedFibonacciNumbers(
-    ).get_expected_fibonacci_sequence(desired_sequence_length)
-
     # Calculate the Fibonacci sequence of the specified length
-    calculated_sequence = list(
+    calculated_sequence_in_numbers = list(
         Fibonacci().generate_fibonacci_sequence(desired_sequence_length))
 
     calculated_sequence_in_words = list(
-        map(ConvertNumbertoString().number_to_words, calculated_sequence))
+        map(ConvertNumbertoString().number_to_words,
+            calculated_sequence_in_numbers))
     print()
     for entry in calculated_sequence_in_words:
         print(entry)
     print()
 
-    # Compare the calculated sequence with the expected sequence
-    assert calculated_sequence == expected_sequence
-
-    # Compare the calculated sequence converted to words by
-    # with the expected sequence converted to words.
-    compare_calculated_words_vs_expected_words(calculated_sequence_in_words,
-                                               desired_sequence_length)
+    compare_actual_vs_expected(desired_sequence_length,
+                               calculated_sequence_in_numbers,
+                               calculated_sequence_in_words)
