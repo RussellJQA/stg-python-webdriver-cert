@@ -16,6 +16,7 @@ or, for fuller output:
 
 # pip installed
 
+import pytest_check  # Allow multiple assert failures per test
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support.wait import WebDriverWait
 
@@ -42,4 +43,7 @@ def test_navigate_through_most_popular_items(driver: WebDriver,
 
         # THEN for each element in the list, the current URL of the
         # navigated-to page contains the element's link text (lower-cased)
-        assert (link_text.lower() in driver.current_url)
+        pytest_check.is_true(
+            link_text.lower() in driver.current_url,
+            f"\n\nThe link text (lower-cased) '{link_text.lower()}' is not in "
+            + f"the current URL '{driver.current_url}'\n")
