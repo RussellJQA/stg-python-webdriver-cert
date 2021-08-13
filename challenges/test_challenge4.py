@@ -2,19 +2,18 @@
 Challenge 4 - Fibonacci (recursion)
 
 Create test_challenge4.py and write a test that does the following:
-1. Displays the fibonnaci sequence for N numbers
+1. Displays the Fibonnaci sequence for N numbers
 2. However, print the number(s) as English words
 Example: If the sequence is 18, then print "Eighteen"
-Example: If the seqence is 120, then print "One Hundred Twenty"
+Example: If the sequence is 120, then print "One Hundred Twenty"
 
 To run this test, specify the following in a Terminal:
-    pytest challenges\test_challenge4.py -s
-or, for fuller output:
-    pytest challenges\test_challenge4.py -rP
+    pytest challenges\test_challenge4.py -s  # Disable stdout/stderr capturing
+or:
+    pytest challenges\test_challenge4.py -rP  # For fuller output
 """
 
 # pip installed
-
 import pytest
 import pytest_check  # Allow multiple assert failures per test
 
@@ -30,7 +29,6 @@ DESIRED_SEQUENCE_LENGTH = 301  # Generates over 100,000 characters of output
 
 @pytest.mark.parametrize("sequence_length", [DESIRED_SEQUENCE_LENGTH])
 def test_fibonacci_sequence(sequence_length: int) -> None:
-
     actual_fibonaccis = list(
         Fibonacci().generate_fibonacci_sequence(sequence_length))
     expected_fibonaccis = ExpectedFibonacciNumbers(
@@ -39,7 +37,6 @@ def test_fibonacci_sequence(sequence_length: int) -> None:
     ).get_expected_fibonacci_words(sequence_length)
 
     for num in range(sequence_length):
-
         fibonacci_number = actual_fibonaccis[num]
         fibonacci_number_words = ConvertNumbertoString().number_to_words(
             fibonacci_number)

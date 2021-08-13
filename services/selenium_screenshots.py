@@ -14,12 +14,10 @@ class SeleniumScreenshots:
     # Initializer
 
     def __init__(self, driver: WebDriver, screenshot_fn: str) -> None:
-
         self.driver: WebDriver = driver
         self.screenshot_fn: str = screenshot_fn
 
     def take_screenshot(self, path="screenshots") -> None:
-
         screenshots_fldr = Path(path)
 
         # Create screenshots folder (if it doesn't already exist)

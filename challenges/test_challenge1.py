@@ -10,7 +10,6 @@ To run this test, specify the following in a Terminal:
 """
 
 # pip installed
-
 import pytest
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support.wait import WebDriverWait
@@ -23,7 +22,6 @@ from pages.google_search import GoogleSearchPage
 @pytest.mark.parametrize("search_key", ["puppies"])
 def test_google_search(driver: WebDriver, wait: WebDriverWait,
                        search_key: str) -> None:
-
     # GIVEN the Google search page is displayed
     search_page = GoogleSearchPage(driver, wait)
 

@@ -9,13 +9,12 @@ as their URLs
 Check that each element in this list navigates to the *correct* page
 
 To run this test, specify the following in a Terminal:
-    pytest challenges\test_challenge7.py -s
-or, for fuller output:
-    pytest challenges\test_challenge7.py -rP
+    pytest challenges\test_challenge7.py -s  # Disable stdout/stderr capturing
+or:
+    pytest challenges\test_challenge7.py -rP  # For fuller output
 """
 
 # pip installed
-
 import pytest_check  # Allow multiple assert failures per test
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support.wait import WebDriverWait
@@ -26,7 +25,6 @@ from pages.copart_home import CopartHomePage
 
 def test_navigate_through_most_popular_items(driver: WebDriver,
                                              wait: WebDriverWait):
-
     # GIVEN the Copart homepage is displayed
     copart_page = CopartHomePage(driver, wait)
 

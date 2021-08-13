@@ -10,7 +10,6 @@ To run this test, specify the following in a Terminal:
 """
 
 # pip installed
-
 import pytest
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support.wait import WebDriverWait
@@ -23,7 +22,6 @@ from pages.copart_home import CopartHomePage
                          [("exotics", "PORSCHE")])
 def test_copart_search(driver: WebDriver, wait: WebDriverWait, search_key: str,
                        expected_search_result: str) -> None:
-
     # GIVEN the Copart homepage is displayed
     search_page = CopartHomePage(driver, wait)
 

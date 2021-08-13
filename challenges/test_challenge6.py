@@ -8,11 +8,12 @@ Then for the Model, search 'skyline'. This is a rare car that might not exist
 If it doesn't exist, catch the exception and take a screenshot
 
 To run this test, specify the following in a Terminal:
-    pytest challenges\test_challenge6.py
+    pytest challenges\test_challenge6.py -s  # Disable stdout/stderr capturing
+or:
+    pytest challenges\test_challenge6.py -rP  # For fuller output
 """
 
 # pip installed
-
 import pytest
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support.wait import WebDriverWait
@@ -28,7 +29,6 @@ def test_search_for_make_and_model(driver: WebDriver, wait: WebDriverWait,
                                    search_key: str,
                                    filter_panel_link_text: str,
                                    filter_text: str, filter_check_box: str):
-
     # GIVEN the Copart homepage is displayed
     copart_page = CopartHomePage(driver, wait)
 

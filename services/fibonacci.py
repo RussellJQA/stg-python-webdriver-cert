@@ -11,7 +11,6 @@ from services.expected_fibonacci_numbers import ExpectedFibonacciNumbers
 
 
 class Fibonacci:
-
     expected_fibonacci_sequence = ExpectedFibonacciNumbers(
     ).get_expected_fibonacci_sequence(301)
 

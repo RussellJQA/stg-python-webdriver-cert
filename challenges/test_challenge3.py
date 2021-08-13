@@ -8,18 +8,12 @@ with its URL (aka href) next to it.
 Example Output: SILVERADO - https://www.copart.com/popular/model/silverado
 
 To run this test, specify the following in a Terminal:
-
-    # Show stdcalls for print statements, loggins calls, etc.,
-    # by disabling stdout/stderr capturing
-    pytest challenges\test_challenge3.py -s
-
-or, for fuller output:
-
-    pytest challenges\test_challenge3.py -rP
+    pytest challenges\test_challenge3.py -s  # Disable stdout/stderr capturing
+or:
+    pytest challenges\test_challenge3.py -rP  # For fuller output
 """
 
 # pip installed
-
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support.wait import WebDriverWait
 
@@ -29,7 +23,6 @@ from pages.copart_home import CopartHomePage
 
 def test_get_list_of_most_popular_items(driver: WebDriver,
                                         wait: WebDriverWait) -> None:
-
     # GIVEN the Copart homepage is displayed
     copart_page = CopartHomePage(driver, wait)
 

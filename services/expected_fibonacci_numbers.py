@@ -15,7 +15,6 @@ from __future__ import annotations
 
 
 class ExpectedFibonacciNumbers:
-
     _EXPECTED_FIBONACCI_SEQUENCE = [
         0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597,
         2584, 4181, 6765, 10946, 17711, 28657, 46368, 75025, 121393, 196418,
@@ -216,7 +215,6 @@ class ExpectedFibonacciNumbers:
 
     def get_expected_fibonacci_sequence(self,
                                         sequence_length: int) -> list[int]:
-
         if not (isinstance(sequence_length, int) and
                 (1 <= sequence_length <= self.get_max_sequence_length())):
             raise ValueError("sequence_length must be an integer from 1 to " +

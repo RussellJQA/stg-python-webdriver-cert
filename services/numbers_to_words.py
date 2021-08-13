@@ -5,7 +5,8 @@ corresponding strings (e.g., "twenty one").
 
 
 class ConvertNumbertoString:
-    def triad_to_string(self, one_to_three_digit_int: int) -> str:
+    @staticmethod
+    def triad_to_string(one_to_three_digit_int: int) -> str:
 
         assert_msg = (f"The input {str(one_to_three_digit_int)} " +
                       "should be a 1-to-3 digit integer.")
@@ -87,7 +88,7 @@ class ConvertNumbertoString:
                         result += f" {NUM_LT_TWENTY[ones_digit]}"
                 else:
                     result += ((" " if hundreds_digit else "") +
-                               f"{TENS_PLACE[10*tens_digit]}" +
+                               f"{TENS_PLACE[10 * tens_digit]}" +
                                (f" {NUM_LT_TWENTY[ones_digit]}"
                                 if ones_digit else ""))
 
@@ -110,6 +111,7 @@ class ConvertNumbertoString:
             # For ease of comparison with output from the
             # https://pypi.org/project/num2words/ project, where there was more
             # than 1 name to choose from, the name used by num2words was chosen
+
             TRIAD_GROUPINGS = {
                 0: "",
                 1: "thousand",
@@ -145,11 +147,10 @@ class ConvertNumbertoString:
 
             number_as_words = ""
             for triad_group_number in range(triad_count):
-                triad = number_as_string_padded[3 * triad_group_number:3 *
-                                                triad_group_number + 3]
+                triad = number_as_string_padded[3 * triad_group_number:3 * triad_group_number + 3]
 
                 # If the current triad is not empty, then ...
-                if (triad != "000"):
+                if triad != "000":
                     triad_as_string = self.triad_to_string(int(triad))
                     triad_grouping = TRIAD_GROUPINGS[triad_count -
                                                      triad_group_number -
@@ -166,8 +167,8 @@ class ConvertNumbertoString:
                         grouping_separator = ""
 
                     number_as_words += (
-                        f"{grouping_separator}{triad_as_string}" +
-                        (f" {triad_grouping}" if triad_grouping else ""))
+                            f"{grouping_separator}{triad_as_string}" +
+                            (f" {triad_grouping}" if triad_grouping else ""))
 
         return number_as_words
 
@@ -177,20 +178,20 @@ if __name__ == '__main__':
     num = 222232244629420445529739893461909967206666939096499764990979600
     # The same number represented as words
     num_as_words = (
-        "two hundred twenty two novemdecillion, " +
-        "two hundred thirty two octodecillion, " +
-        "two hundred forty four septdecillion, " +
-        "six hundred twenty nine sexdecillion, " +
-        "four hundred twenty quindecillion, " +
-        "four hundred forty five quattuordecillion, " +
-        "five hundred twenty nine tredecillion, " +
-        "seven hundred thirty nine duodecillion, " +
-        "eight hundred ninety three undecillion, " +
-        "four hundred sixty one decillion, nine hundred nine nonillion, " +
-        "nine hundred sixty seven octillion, two hundred six septillion, " +
-        "six hundred sixty six sextillion, " +
-        "nine hundred thirty nine quintillion, ninety six quadrillion, " +
-        "four hundred ninety nine trillion, seven hundred sixty four billion, "
-        + "nine hundred ninety million, nine hundred seventy nine thousand, " +
-        "six hundred")
+            "two hundred twenty two novemdecillion, " +
+            "two hundred thirty two octodecillion, " +
+            "two hundred forty four septdecillion, " +
+            "six hundred twenty nine sexdecillion, " +
+            "four hundred twenty quindecillion, " +
+            "four hundred forty five quattuordecillion, " +
+            "five hundred twenty nine tredecillion, " +
+            "seven hundred thirty nine duodecillion, " +
+            "eight hundred ninety three undecillion, " +
+            "four hundred sixty one decillion, nine hundred nine nonillion, " +
+            "nine hundred sixty seven octillion, two hundred six septillion, " +
+            "six hundred sixty six sextillion, " +
+            "nine hundred thirty nine quintillion, ninety six quadrillion, " +
+            "four hundred ninety nine trillion, seven hundred sixty four billion, "
+            + "nine hundred ninety million, nine hundred seventy nine thousand, " +
+            "six hundred")
     assert ConvertNumbertoString().number_to_words(num) == num_as_words

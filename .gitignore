@@ -129,8 +129,10 @@ dmypy.json
 .pyre/
 
 # Custom ignores
+/.idea
 /.vscode
 /screenshots/*.png
+/challenges/screenshots/*.png
 
 # Type stub(s) from typeshet (e.g., https://github.com/python/typeshed/tree/master/stubs/selenium)
 /typings
