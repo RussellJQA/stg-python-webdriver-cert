@@ -88,7 +88,8 @@ class CopartHomePage:
             column_value_counts: dict[str, int],
             column_lumping: list[str]) -> list:
 
-        assert len(column_lumping) >= 2
+        if len(column_lumping) < 2:
+            raise ValueError("column_lumping must contain at least 2 elements")
 
         # Lump all unspecified categories together under the lump_misc_as category
         lump_misc_as = column_lumping[0]
