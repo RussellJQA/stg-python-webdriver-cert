@@ -49,8 +49,10 @@ from pages.copart_home import CopartHomePage
 
 testdata = [
     ("porsche", "model", []),  # Challenge 5, Part 1
-    ("porsche", "damage", ["MISC", "FRONT END", "REAR END", "MINOR DENT/SCRATCHES", "UNDERCARRIAGE"
-                           ])  # Challenge 5, Part 2
+    ("porsche", "damage", [
+        "MISC", "FRONT END", "REAR END", "MINOR DENT/SCRATCHES",
+        "UNDERCARRIAGE"
+    ])  # Challenge 5, Part 2
 ]
 
 
@@ -92,13 +94,20 @@ def test_search_then_print_column_data(driver: WebDriver, wait: WebDriverWait,
 
     # THEN Get and print a sorted list of those values, with their corresponding counts
 
-    sorted_column_value_counts_items = copart_homepage.get_sorted_column_value_counts_items(column_value_counts,
-                                                                                            column_lumping)
-
     test_title = (
-            f"\n{len(sorted_column_value_counts_items)} {search_key.upper()} " +
-            f"{column_name.lower()} values (with counts of their occurrences)"
-    )
+        f"\n{search_key.upper()} " +
+        f"{column_name.lower()} values (with counts of their occurrences)")
+
+    # sorted_column_value_counts_items = copart_homepage.get_sorted_column_value_counts_items(
+    #     column_value_counts, column_lumping)
+
+    if len(column_lumping) < 2:
+        sorted_column_value_counts_items = sorted(
+            column_value_counts.items(),
+            key=lambda key_value: key_value[0])  # Sort dict into a list
+    else:
+        sorted_column_value_counts_items = copart_homepage.get_lumped_and_sorted_column_value_counts_items(
+            column_value_counts, column_lumping)
 
     # dict() used to convert the list back into a dict
     copart_homepage.print_web_element_value_counts(

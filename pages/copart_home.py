@@ -45,33 +45,8 @@ class CopartHomePage:
     # Static Methods
 
     @staticmethod
-    def get_sorted_column_value_counts_items(column_value_counts: dict[str, int],
-                                             column_lumping: list[str]) -> list:
-        lumped_value_counts = Counter()
-
-        if len(column_lumping):
-            lump_misc_as = column_lumping[0]  # Lump all unspecified categories together under the lump_misc_as category
-            non_lumped_column_values = column_lumping[1:]
-            for value in dict(column_value_counts):
-                lumped_value_counts.update({
-                    (value if value in non_lumped_column_values else lump_misc_as):
-                        dict(column_value_counts)[value]
-                })
-
-            # Sort dict into a list, alphabetically except with lump_misc_as last
-            sorted_column_value_counts_items = sorted(
-                lumped_value_counts.items(),
-                key=lambda key_value: ("ZZZZZ"
-                                       if (key_value[0] == lump_misc_as) else key_value[0]))
-        else:
-            sorted_column_value_counts_items = sorted(
-                column_value_counts.items(), key=lambda key_value: key_value[0])  # Sort dict into a list
-
-        return sorted_column_value_counts_items
-
-    @staticmethod
-    def print_web_element_value_counts(test_title: str,
-                                       web_element_value_counts: dict[str, int]) -> None:
+    def print_web_element_value_counts(
+            test_title: str, web_element_value_counts: dict[str, int]) -> None:
         """
         Prints the count for each of the distinct text values from the
         specified WebElements
@@ -80,10 +55,6 @@ class CopartHomePage:
         print(test_title)
         for key, count in web_element_value_counts.items():
             print(f"{key} - {count}")
-
-    @staticmethod
-    def filter_button_x_path(panel_link_text: str):
-        return f"//h4[@class='panel-title']/a[text()='{panel_link_text}']"
 
     @staticmethod
     def get_web_element_value_counts(elements) -> dict[str, int]:
@@ -112,6 +83,37 @@ class CopartHomePage:
 
         return web_element_value_counts
 
+    @staticmethod
+    def get_lumped_and_sorted_column_value_counts_items(
+            column_value_counts: dict[str, int],
+            column_lumping: list[str]) -> list:
+
+        assert len(column_lumping) >= 2
+
+        # Lump all unspecified categories together under the lump_misc_as category
+        lump_misc_as = column_lumping[0]
+
+        non_lumped_column_values = column_lumping[1:]
+
+        lumped_value_counts = Counter()
+        for value in dict(column_value_counts):
+            lumped_value_counts.update({
+                (value if value in non_lumped_column_values else lump_misc_as):
+                dict(column_value_counts)[value]
+            })
+
+        # Sort dict into a list, alphabetically except with lump_misc_as last
+        lumped_and_sorted_column_value_counts_items = sorted(
+            lumped_value_counts.items(),
+            key=lambda key_value:
+            ("ZZZZZ" if (key_value[0] == lump_misc_as) else key_value[0]))
+
+        return lumped_and_sorted_column_value_counts_items
+
+    @staticmethod
+    def filter_button_x_path(panel_link_text: str):
+        return f"//h4[@class='panel-title']/a[text()='{panel_link_text}']"
+
     # Page Object Methods
 
     def enter_search_key(self, search_key: str) -> None:
@@ -129,9 +131,11 @@ class CopartHomePage:
         Wait for the progress spinner to be present and then become invisible
         """
 
-        spinner_locator = (By.XPATH, "//div[@id='serverSideDataTable_processing']")
+        spinner_locator = (By.XPATH,
+                           "//div[@id='serverSideDataTable_processing']")
 
-        spinner = self.wait.until(ec.presence_of_element_located(spinner_locator))
+        spinner = self.wait.until(
+            ec.presence_of_element_located(spinner_locator))
         self.wait.until(ec.invisibility_of_element_located(spinner))
 
     def get_table_text(self) -> str:
@@ -211,12 +215,12 @@ class CopartHomePage:
 
         column_xpath_locators = {
             "make":
-                "//span[@class='make-items']//a",
+            "//span[@class='make-items']//a",
             "model":
-                "//span[@data-uname='lotsearchLotmodel' and not(text()='[[ lm ]]')]",
+            "//span[@data-uname='lotsearchLotmodel' and not(text()='[[ lm ]]')]",
             "damage":
-                ("//span[@data-uname='lotsearchLotdamagedescription' and " +
-                 "not(text()='[[ dd ]]')]")
+            ("//span[@data-uname='lotsearchLotdamagedescription' and " +
+             "not(text()='[[ dd ]]')]")
         }
 
         return self.driver.find_elements(By.XPATH,
@@ -309,8 +313,8 @@ class CopartHomePage:
             ).take_screenshot()
 
             error_message = (
-                    f"\nfilter checkbox for panel: {filter_panel_link_text}, " +
-                    f"text: {filter_text}, checkbox: {filter_check_box} not found."
+                f"\nfilter checkbox for panel: {filter_panel_link_text}, " +
+                f"text: {filter_text}, checkbox: {filter_check_box} not found."
             )
             print(error_message)
             print(f"Exception {error.__class__} occurred.")
