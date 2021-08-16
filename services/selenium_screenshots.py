@@ -17,10 +17,8 @@ class SeleniumScreenshots:
         self.driver: WebDriver = driver
         self.screenshot_fn: str = screenshot_fn
 
-    def take_screenshot(self, path="screenshots") -> None:
-        screenshots_fldr = Path(path)
+    def take_screenshot(self, screenshots_path: Path) -> None:
+        # Create screenshots path folder (if it doesn't already exist)
+        screenshots_path.mkdir(exist_ok=True)
 
-        # Create screenshots folder (if it doesn't already exist)
-        screenshots_fldr.mkdir(exist_ok=True)
-
-        self.driver.save_screenshot(str(screenshots_fldr / self.screenshot_fn))
+        self.driver.save_screenshot(str(screenshots_path / self.screenshot_fn))

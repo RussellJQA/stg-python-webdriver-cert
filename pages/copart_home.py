@@ -10,6 +10,7 @@ The CopartHomePage class is the page object for Copart.com's home page.
 from __future__ import annotations
 
 from collections import Counter
+from pathlib import Path
 from typing import Optional
 
 # pip installed
@@ -100,7 +101,7 @@ class CopartHomePage:
         for value in dict(column_value_counts):
             lumped_value_counts.update({
                 (value if value in non_lumped_column_values else lump_misc_as):
-                dict(column_value_counts)[value]
+                    dict(column_value_counts)[value]
             })
 
         # Sort dict into a list, alphabetically except with lump_misc_as last
@@ -216,12 +217,12 @@ class CopartHomePage:
 
         column_xpath_locators = {
             "make":
-            "//span[@class='make-items']//a",
+                "//span[@class='make-items']//a",
             "model":
-            "//span[@data-uname='lotsearchLotmodel' and not(text()='[[ lm ]]')]",
+                "//span[@data-uname='lotsearchLotmodel' and not(text()='[[ lm ]]')]",
             "damage":
-            ("//span[@data-uname='lotsearchLotdamagedescription' and " +
-             "not(text()='[[ dd ]]')]")
+                ("//span[@data-uname='lotsearchLotdamagedescription' and " +
+                 "not(text()='[[ dd ]]')]")
         }
 
         return self.driver.find_elements(By.XPATH,
@@ -280,7 +281,8 @@ class CopartHomePage:
 
     def set_filter_text_and_check_box(self, filter_panel_link_text: str,
                                       filter_text: str,
-                                      filter_check_box: str) -> bool:
+                                      filter_check_box: str,
+                                      screenshots_path: Path) -> bool:
         """
         In the page's page's left-hand 'Filter Options' sidebar:
             - Click the panel with the specified link text (e.g., 'Model')
@@ -311,11 +313,11 @@ class CopartHomePage:
             SeleniumScreenshots(
                 self.driver,
                 f"{PytestServices().get_pytest_name_with_timestamp()}.png"
-            ).take_screenshot()
+            ).take_screenshot(screenshots_path)
 
             error_message = (
-                f"\nfilter checkbox for panel: {filter_panel_link_text}, " +
-                f"text: {filter_text}, checkbox: {filter_check_box} not found."
+                    f"\nfilter checkbox for panel: {filter_panel_link_text}, " +
+                    f"text: {filter_text}, checkbox: {filter_check_box} not found."
             )
             print(error_message)
             print(f"Exception {error.__class__} occurred.")

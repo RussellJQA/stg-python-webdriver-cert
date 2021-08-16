@@ -13,6 +13,8 @@ or:
     pytest challenges\test_challenge6.py -rP  # For fuller output
 """
 
+from pathlib import Path
+
 # pip installed
 import pytest
 from selenium.webdriver.remote.webdriver import WebDriver
@@ -43,8 +45,20 @@ def test_search_for_make_and_model(driver: WebDriver, wait: WebDriverWait,
     #       panel's text box
     #   - Check the specified checkbox (e.g. 'Skyline') in the 'Model' filter
     #       panel's list of checkboxes
+
+    # With the following line of code, screenshots (on failure) are always output to ".\screenshots"
+    # (the "screenshots" subfolder of the containing GitHub repository's root folder).
+    # If just Path("screenshots") is used instead, that resolves to
+    # ".\screenshots" when this test is either run using VSCode's test runner, or run from a terminal via:
+    #     pytest challenges\test_challenge6.py
+    # but it instead resolves to ".\challenges\screenshots" when this test is either run using PyCharm's test runner,
+    # or run from a terminal via:
+    #     cd challenges
+    #     pytest test_challenge6.py
+    screenshots_path = Path(__file__).parent.parent / "screenshots"
+
     assert_msg = (f"Error searching for '{search_key}', filtered by " +
                   f"'{filter_panel_link_text}'='{filter_text}' " +
                   f"with {filter_check_box} checkbox")
     assert copart_page.set_filter_text_and_check_box(
-        filter_panel_link_text, filter_text, filter_check_box), assert_msg
+        filter_panel_link_text, filter_text, filter_check_box, screenshots_path), assert_msg
