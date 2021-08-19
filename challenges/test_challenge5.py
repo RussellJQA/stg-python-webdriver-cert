@@ -98,9 +98,6 @@ def test_search_then_print_column_data(driver: WebDriver, wait: WebDriverWait,
         f"\n{search_key.upper()} " +
         f"{column_name.lower()} values (with counts of their occurrences)")
 
-    # sorted_column_value_counts_items = copart_homepage.get_sorted_column_value_counts_items(
-    #     column_value_counts, column_lumping)
-
     if len(column_lumping) < 2:
         sorted_column_value_counts_items = sorted(
             column_value_counts.items(),
