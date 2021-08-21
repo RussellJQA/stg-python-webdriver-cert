@@ -21,7 +21,7 @@ import pytest_check  # Allow multiple assert failures per test
 from services.expected_fibonacci_numbers import ExpectedFibonacciNumbers
 from services.expected_fibonacci_words import ExpectedFibonacciWords
 from services.fibonacci import Fibonacci
-from services.numbers_to_words import ConvertNumbertoString
+from services.integer_to_words import ConvertIntegerToWords
 
 # If you want less output, you can vary the DESIRED_SEQUENCE_LENGTH below
 DESIRED_SEQUENCE_LENGTH = 301  # Generates over 100,000 characters of output
@@ -38,7 +38,7 @@ def test_fibonacci_sequence(sequence_length: int) -> None:
 
     for num in range(sequence_length):
         fibonacci_number = actual_fibonaccis[num]
-        fibonacci_number_words = ConvertNumbertoString().number_to_words(
+        fibonacci_number_words = ConvertIntegerToWords().number_to_words(
             fibonacci_number)
         print(f"For num={num}, the Fibonacci number is {fibonacci_number} " +
               f"- {fibonacci_number_words}")

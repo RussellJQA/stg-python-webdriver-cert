@@ -1,74 +1,18 @@
 """
-The ConvertNumbertoString class is used to convert numbers (e.g., 21) to their
-corresponding strings (e.g., "twenty one").
+The ConvertIntegerToWords utility class is used to convert an integer (e.g., 990979600)
+to its corresponding string of words
+(e.g., 'nine hundred ninety million, nine hundred seventy nine thousand six hundred')
 """
 
-NUM_LT_TWENTY = {
-    0: "zero",
-    1: "one",
-    2: "two",
-    3: "three",
-    4: "four",
-    5: "five",
-    6: "six",
-    7: "seven",
-    8: "eight",
-    9: "nine",
-    10: "ten",
-    11: "eleven",
-    12: "twelve",
-    13: "thirteen",
-    14: "fourteen",
-    15: "fifteen",
-    16: "sixteen",
-    17: "seventeen",
-    18: "eighteen",
-    19: "nineteen"
-}
+# Custom imports
+from services.integer_triad_to_words import ConvertIntegerTriadToWords
 
 
-class ConvertNumbertoString:
+class ConvertIntegerToWords:
 
     @staticmethod
-    def get_hundreds_digit(one_to_three_digit_int: int) -> int:
-        return 0 if one_to_three_digit_int < 100 else int(one_to_three_digit_int // 100)
-
-    @staticmethod
-    def get_words_for_tens_and_ones_digits(one_to_three_digit_int: int, hundreds_digit: int) -> str:
-
-        TENS_PLACE = {
-            10: "ten",
-            20: "twenty",
-            30: "thirty",
-            40: "forty",
-            50: "fifty",
-            60: "sixty",
-            70: "seventy",
-            80: "eighty",
-            90: "ninety"
-        }
-
-        tens_and_ones = int(one_to_three_digit_int - (100 * hundreds_digit))
-
-        tens_digit = 0 if tens_and_ones < 10 else int(tens_and_ones // 10)
-
-        if tens_and_ones <= 19:
-            if tens_and_ones:
-                return f" {NUM_LT_TWENTY[tens_and_ones]}"
-        else:
-            ones_digit = int(tens_and_ones - 10 * tens_digit)
-            if tens_digit > 0:
-                return ((" " if hundreds_digit else "") +
-                        f"{TENS_PLACE[10 * tens_digit]}" +
-                        (f" {NUM_LT_TWENTY[ones_digit]}"
-                         if ones_digit else ""))
-            elif tens_digit == 0 and ones_digit != 0:
-                return f" {NUM_LT_TWENTY[ones_digit]}"
-
-        return ""
-
-    @staticmethod
-    def get_grouping_separator(triad: str, triad_group_number: int, triad_count: int) -> str:
+    def get_grouping_separator(triad: str, triad_group_number: int,
+                               triad_count: int) -> str:
 
         if triad_group_number:
             if int(triad) >= 100 or triad_group_number < triad_count - 1:
@@ -77,36 +21,6 @@ class ConvertNumbertoString:
                 return " "
         else:
             return ""
-
-    @staticmethod
-    def triad_to_string(one_to_three_digit_int: int) -> str:
-
-        assert_msg = (f"The input {str(one_to_three_digit_int)} " +
-                      "should be a 1-to-3 digit integer.")
-        assert 0 <= one_to_three_digit_int <= 999, assert_msg
-
-        HUNDREDS_PLACE = {
-            100: "one hundred",
-            200: "two hundred",
-            300: "three hundred",
-            400: "four hundred",
-            500: "five hundred",
-            600: "six hundred",
-            700: "seven hundred",
-            800: "eight hundred",
-            900: "nine hundred"
-        }
-
-        if one_to_three_digit_int <= 19:
-            return "" if one_to_three_digit_int == 0 else NUM_LT_TWENTY[one_to_three_digit_int]
-
-        hundreds_digit = ConvertNumbertoString().get_hundreds_digit(one_to_three_digit_int)
-
-        result = "" if one_to_three_digit_int < 100 else HUNDREDS_PLACE[100 * hundreds_digit]
-
-        result += ConvertNumbertoString().get_words_for_tens_and_ones_digits(one_to_three_digit_int, hundreds_digit)
-
-        return result
 
     @staticmethod
     def number_to_words(number: int) -> str:
@@ -166,13 +80,15 @@ class ConvertNumbertoString:
 
                 # If the current triad is not empty, then ...
                 if triad != "000":
-                    triad_as_string = ConvertNumbertoString().triad_to_string(int(triad))
+                    triad_as_string = ConvertIntegerTriadToWords().triad_to_string(
+                        int(triad))
                     triad_grouping = TRIAD_GROUPINGS[triad_count -
                                                      triad_group_number -
                                                      1]  # 6: "quintillion",
 
-                    grouping_separator = ConvertNumbertoString().get_grouping_separator(triad, triad_group_number,
-                                                                                        triad_count)
+                    grouping_separator = ConvertIntegerToWords(
+                    ).get_grouping_separator(triad, triad_group_number,
+                                             triad_count)
                     number_as_words += (
                             f"{grouping_separator}{triad_as_string}" +
                             (f" {triad_grouping}" if triad_grouping else ""))
@@ -201,4 +117,4 @@ if __name__ == '__main__':
             "four hundred ninety nine trillion, seven hundred sixty four billion, "
             + "nine hundred ninety million, nine hundred seventy nine thousand, " +
             "six hundred")
-    assert ConvertNumbertoString().number_to_words(num) == num_as_words
+    assert ConvertIntegerToWords().number_to_words(num) == num_as_words
