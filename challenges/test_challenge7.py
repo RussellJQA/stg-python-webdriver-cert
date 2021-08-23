@@ -41,7 +41,12 @@ def test_navigate_through_most_popular_items(driver: WebDriver,
 
         # THEN for each element in the list, the current URL of the
         # navigated-to page contains the element's link text (lower-cased)
+
+        # THEN For each element in the list, the current URL of the navigated-to page contains the element's link text
+        # Also, convert the make to lowercase, and replace any blank characters in it with "-", in order to match URL
+        # Replacing blanks is needed because there's now a "3 SERIES" make which takes you to
+        #   https://www.copart.com/popular/model/3-series?query=3-series&free
         pytest_check.is_true(
-            link_text.lower() in driver.current_url,
+            link_text.lower().replace(" ", "-") in driver.current_url,
             f"\n\nThe link text (lower-cased) '{link_text.lower()}' is not in "
             + f"the current URL '{driver.current_url}'\n")
