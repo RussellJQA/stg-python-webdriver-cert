@@ -24,9 +24,14 @@ from selenium.webdriver.support.wait import WebDriverWait
 from pages.copart_home import CopartHomePage
 
 
+# Run this twice: once with "Skyline" and once with "Skyline Gt".
+# The reason:
+#      Although the challenge only calls for "Skyline", that often fails (as the challenge said it might).
+#      So I'm re-running with a value which for the U.S. usually passes,
+#      to demonstrate that it can pass (when it should). [Both values usually fail in Canada and the U.K.]
 @pytest.mark.parametrize(
     "search_key,filter_panel_link_text,filter_text,filter_check_box",
-    [("nissan", "Model", "skyline", "Skyline")])
+    [("nissan", "Model", "skyline", "Skyline"), ("nissan", "Model", "skyline", "Skyline Gt")])
 def test_search_for_make_and_model(driver: WebDriver, wait: WebDriverWait,
                                    search_key: str,
                                    filter_panel_link_text: str,
