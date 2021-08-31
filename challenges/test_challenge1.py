@@ -26,7 +26,11 @@ def test_google_search(driver: WebDriver, wait: WebDriverWait,
     search_page = GoogleSearchPage(driver, wait)
 
     # WHEN the user searches for the specified search phrase
+
     search_page.enter_search_key(search_key)
+
+    # This test passed in Chrome without this wait. But using Java WebDriver, it failed in Firefox without it.
+    search_page.wait_for_title_to_contain(search_key)
 
     # THEN the page title of the search results contains the specified search
     # phrase

@@ -6,6 +6,7 @@ The GoogleSearchPage class is the page object for Google's search page.
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.remote.webdriver import WebDriver
+from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.wait import WebDriverWait
 
 
@@ -35,6 +36,15 @@ class GoogleSearchPage:
             search_key, Keys.RETURN)
 
     def page_title(self) -> str:
-        """Return the Web page's page title"""
+        """
+        Return the Web page's page title
+        """
 
         return self.driver.title
+
+    def wait_for_title_to_contain(self, text: str) -> None:
+        """
+        Wait for the page title to contain the specified text
+        """
+
+        self.wait.until(ec.title_contains(text))
