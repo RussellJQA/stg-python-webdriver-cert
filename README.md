@@ -21,6 +21,7 @@ That installs the following Python packages, along with their dependencies:
   - Because pytest is a dependency of pytest-check (below), it would be installed even if it was omitted from requirements.txt.
   - But it's been included in requirements.txt to make its use explicit.
 - [pytest-check:](https://pypi.org/project/pytest-check/) a pytest plugin that allows multiple failures per test
+- [python-dotenv:](https://pypi.org/project/python-dotenv/) reads key-value pairs from a .env file and can set them as environment variables. It helps in the development of applications following the [12-factor](https://12factor.net/) principles. [Factor 3 is "Store configuration in the environment."]
 - [selenium:](https://pypi.org/project/selenium/) the Python bindings for Selenium WebDriver
 - [webdriver-manager:](https://pypi.org/project/webdriver-manager/) manages WebDriver installs, so you don't have to
 
