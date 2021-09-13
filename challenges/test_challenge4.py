@@ -40,7 +40,7 @@ def test_fibonacci_sequence(sequence_length: int) -> None:
         fibonacci_number = actual_fibonaccis[num]
         fibonacci_number_words = ConvertIntegerToWords().number_to_words(
             fibonacci_number)
-        print(f"For num={num}, the Fibonacci number is {fibonacci_number} " +
+        print(f"For num={num}, the Fibonacci number is {fibonacci_number:,} " +
               f"- {fibonacci_number_words}")
 
         expected_fibonacci_number = expected_fibonaccis[num]
