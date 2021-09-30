@@ -31,8 +31,13 @@ DESIRED_SEQUENCE_LENGTH = 301  # Generates over 100,000 characters of output
 def test_fibonacci_sequence(sequence_length: int) -> None:
     actual_fibonaccis = list(
         Fibonacci().generate_fibonacci_sequence(sequence_length))
+
     expected_fibonaccis = ExpectedFibonacciNumbers(
     ).get_expected_fibonacci_sequence(sequence_length)
+    if sequence_length > len(expected_fibonaccis):
+        raise ValueError(f"The specified sequence_length {sequence_length} is greater than "
+                         f" the number of expected values ({len(expected_fibonaccis)}) we have")
+
     expected_fibonaccis_as_words = ExpectedFibonacciWords(
     ).get_expected_fibonacci_words(sequence_length)
 

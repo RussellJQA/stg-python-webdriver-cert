@@ -117,4 +117,5 @@ if __name__ == '__main__':
             "four hundred ninety nine trillion, seven hundred sixty four billion, "
             + "nine hundred ninety million, nine hundred seventy nine thousand, " +
             "six hundred")
-    assert ConvertIntegerToWords().number_to_words(num) == num_as_words
+    if ConvertIntegerToWords().number_to_words(num) != num_as_words:
+        raise ValueError

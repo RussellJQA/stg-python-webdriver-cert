@@ -61,9 +61,8 @@ class ConvertIntegerTriadToWords:
     @staticmethod
     def triad_to_string(one_to_three_digit_int: int) -> str:
 
-        assert_msg = (f"The input {str(one_to_three_digit_int)} " +
-                      "should be a 1-to-3 digit integer.")
-        assert 0 <= one_to_three_digit_int <= 999, assert_msg
+        if one_to_three_digit_int < 0 or one_to_three_digit_int > 999:
+            raise ValueError(f"The input {str(one_to_three_digit_int)} should be a 1-to-3 digit integer.")
 
         HUNDREDS_PLACE = {
             100: "one hundred",
