@@ -135,5 +135,6 @@ dmypy.json
 /challenges/screenshots/*.png
 
 # Type stub(s) from typeshet (e.g., https://github.com/python/typeshed/tree/master/stubs/selenium)
-/typings
+/.my_notes/
 /.playground
+/typings

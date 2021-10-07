@@ -136,16 +136,21 @@ class CopartHomePage:
         spinner_locator = (By.XPATH,
                            "//div[@id='serverSideDataTable_processing']")
 
-        spinner = self.wait.until(
-            ec.presence_of_element_located(spinner_locator))
-        self.wait.until(ec.invisibility_of_element_located(spinner))
+        try:
+            spinner = self.wait.until(ec.presence_of_element_located(spinner_locator))
+        except (NoSuchElementException, TimeoutException):
+            print("Timed out waiting for progress spinner to become visible, so don't wait for it to become invisible.")
+        else:  # There was no exception
+            self.wait.until(ec.invisibility_of_element_located(spinner))
 
     def get_table_text(self) -> str:
         """Return the text from the search results table WebElement"""
 
         table_locator = (By.XPATH, "//table[@id='serverSideDataTable']")
 
-        return self.driver.find_element(*table_locator).text
+        table = self.wait.until(ec.visibility_of_element_located(table_locator))
+
+        return table.text
 
     def click_link(self, link_text: str) -> None:
         """Click the link with the specified link text"""
@@ -284,7 +289,7 @@ class CopartHomePage:
                                       filter_check_box: str,
                                       screenshots_path: Path) -> bool:
         """
-        In the page's page's left-hand 'Filter Options' sidebar:
+        In the page's left-hand 'Filter Options' sidebar:
             - Click the panel with the specified link text (e.g., 'Model')
             - Enter the specified text (e.g. 'skyline') in the 'Model' filter
               panel's text box
