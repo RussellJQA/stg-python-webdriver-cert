@@ -24,10 +24,9 @@ from selenium.webdriver.support.wait import WebDriverWait
 from pages.copart_home import CopartHomePage
 
 
-# Run this twice: once with "Skyline" and once with "Skyline Gt".
-# The reason:
+# Run this 3 times: once with "Skyline", once with "Skyline Gt", and once with "Skylinegtr", because:
 #      Although the challenge only calls for "Skyline", that often fails (as the challenge said it might).
-#      So I'm re-running with some alternative values to demonstrate that it can pass (when it should).
+#      So I'm re-running with some alternative values to demonstrate that this test can pass (when it should).
 #      At least 1 of the values usually passes for the U.S. [All 3 values usually fail in Canada and the U.K.]
 @pytest.mark.parametrize(
     "search_key,filter_panel_link_text,filter_text,filter_check_box",
