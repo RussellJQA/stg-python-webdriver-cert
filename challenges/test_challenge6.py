@@ -27,15 +27,17 @@ from pages.copart_home import CopartHomePage
 # Run this twice: once with "Skyline" and once with "Skyline Gt".
 # The reason:
 #      Although the challenge only calls for "Skyline", that often fails (as the challenge said it might).
-#      So I'm re-running with a value which for the U.S. usually passes,
-#      to demonstrate that it can pass (when it should). [Both values usually fail in Canada and the U.K.]
+#      So I'm re-running with some alternative values to demonstrate that it can pass (when it should).
+#      At least 1 of the values usually passes for the U.S. [All 3 values usually fail in Canada and the U.K.]
 @pytest.mark.parametrize(
     "search_key,filter_panel_link_text,filter_text,filter_check_box",
-    [("nissan", "Model", "skyline", "Skyline"), ("nissan", "Model", "skyline", "Skyline Gt")])
-def test_search_for_make_and_model(driver: WebDriver, wait: WebDriverWait,
-                                   search_key: str,
-                                   filter_panel_link_text: str,
-                                   filter_text: str, filter_check_box: str):
+    [("nissan", "Model", "skyline", "Skyline"),
+     ("nissan", "Model", "skyline", "Skyline Gt"),
+     ("nissan", "Model", "skyline", "Skylinegtr")])
+def test_filtering(driver: WebDriver, wait: WebDriverWait,
+                   search_key: str,
+                   filter_panel_link_text: str,
+                   filter_text: str, filter_check_box: str):
     # GIVEN the Copart homepage is displayed
     copart_page = CopartHomePage(driver, wait)
 
@@ -44,7 +46,7 @@ def test_search_for_make_and_model(driver: WebDriver, wait: WebDriverWait,
     copart_page.wait_for_spinner_to_come_and_go()
 
     # THEN the user is able to successfully do the following
-    # in the page's page's left-hand 'Filter Options' sidebar:
+    # in the page's left-hand 'Filter Options' sidebar:
     #   - Click the panel with the specified link text (e.g., 'Model')
     #   - Enter the specified text (e.g. 'skyline') in the 'Model' filter
     #       panel's text box
