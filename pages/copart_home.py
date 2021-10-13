@@ -10,6 +10,7 @@ The CopartHomePage class is the page object for Copart.com's home page.
 from __future__ import annotations
 
 from collections import Counter
+from collections import namedtuple
 from pathlib import Path
 from typing import Optional
 
@@ -174,7 +175,7 @@ class CopartHomePage:
 
         return sorted(most_popular_items, key=lambda item: item.text)
 
-    def get_most_popular_items_link_text_and_href(self) -> list[list[str]]:
+    def get_most_popular_items_link_info(self) -> list[tuple[str]]:
         """
         Return a sorted list of the links from the 'Most Popular Items' section
         of the page's 'Trending' tab
@@ -185,7 +186,8 @@ class CopartHomePage:
 
         most_popular_items = self.get_most_popular_items()
 
-        return [[item.text, item.get_attribute("href")]
+        link_info = namedtuple("link_info", ["link_text", "href"])
+        return [link_info(item.text, item.get_attribute("href"))
                 for item in most_popular_items]
 
     def set_entries_per_page_to(self, desired_entries_per_page: int) -> None:
@@ -321,8 +323,8 @@ class CopartHomePage:
             ).take_screenshot(screenshots_path)
 
             error_message = (
-                    f"\nfilter checkbox for panel: {filter_panel_link_text}, " +
-                    f"text: {filter_text}, checkbox: {filter_check_box} not found."
+                f"\nfilter checkbox for panel: {filter_panel_link_text}, " +
+                f"text: {filter_text}, checkbox: {filter_check_box} not found."
             )
             print(error_message)
             print(f"Exception {error.__class__} occurred.")

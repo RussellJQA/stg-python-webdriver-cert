@@ -30,13 +30,13 @@ def test_navigate_through_most_popular_items(driver: WebDriver,
 
     # WHEN you get a list of the link text and the hrefs for the page's
     # "Most Popular Items", and navigate to each href in the list
-    most_popular_items_link_text_and_href = (
-        copart_page.get_most_popular_items_link_text_and_href())
+    most_popular_items_link_info = (
+        copart_page.get_most_popular_items_link_info())
 
-    for item in most_popular_items_link_text_and_href:
-        link_text = item[0]
-        href = item[1]
-        print(f"Make or model: {item[0]}, href: {href}")
+    for link_info in most_popular_items_link_info:
+        link_text = link_info.link_text
+        href = link_info.href
+        print(f"Make or model: {link_text}, href: {href}")
         driver.get(href)
 
         # THEN For each element in the list, the current URL of the navigated-to page contains the element's link text
