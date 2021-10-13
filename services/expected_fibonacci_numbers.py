@@ -210,14 +210,11 @@ class ExpectedFibonacciNumbers:
     def __init__(self) -> None:
         self._max_sequence_length: int = len(self._EXPECTED_FIBONACCI_SEQUENCE)
 
-    def get_max_sequence_length(self) -> int:
-        return self._max_sequence_length
-
     def get_expected_fibonacci_sequence(self,
                                         sequence_length: int) -> list[int]:
         if not (isinstance(sequence_length, int) and
-                (1 <= sequence_length <= self.get_max_sequence_length())):
+                (1 <= sequence_length <= self._max_sequence_length)):
             raise ValueError("sequence_length must be an integer from 1 to " +
-                             f"{self.get_max_sequence_length()} (inclusive)")
+                             f"{self._max_sequence_length} (inclusive)")
 
         return self._EXPECTED_FIBONACCI_SEQUENCE[:sequence_length]

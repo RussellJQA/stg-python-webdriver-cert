@@ -53,26 +53,26 @@ class ExpectedFibonacciWords:
         "twenty four million, one hundred fifty seven thousand, eight hundred seventeen",  # noqa:
         "thirty nine million, eighty eight thousand, one hundred sixty nine",
         "sixty three million, two hundred forty five thousand, nine hundred eighty six",  # noqa:
-        "one hundred two million, three hundred thirty four thousand, one hundred fifty five",  # noqa: 
-        "one hundred sixty five million, five hundred eighty thousand, one hundred forty one",  # noqa: 
-        "two hundred sixty seven million, nine hundred fourteen thousand, two hundred ninety six",  # noqa: 
-        "four hundred thirty three million, four hundred ninety four thousand, four hundred thirty seven",  # noqa: 
-        "seven hundred one million, four hundred eight thousand, seven hundred thirty three",  # noqa: 
-        "one billion, one hundred thirty four million, nine hundred three thousand, one hundred seventy",  # noqa: 
-        "one billion, eight hundred thirty six million, three hundred eleven thousand, nine hundred three",  # noqa: 
-        "two billion, nine hundred seventy one million, two hundred fifteen thousand seventy three",  # noqa: 
+        "one hundred two million, three hundred thirty four thousand, one hundred fifty five",  # noqa:
+        "one hundred sixty five million, five hundred eighty thousand, one hundred forty one",  # noqa:
+        "two hundred sixty seven million, nine hundred fourteen thousand, two hundred ninety six",  # noqa:
+        "four hundred thirty three million, four hundred ninety four thousand, four hundred thirty seven",  # noqa:
+        "seven hundred one million, four hundred eight thousand, seven hundred thirty three",  # noqa:
+        "one billion, one hundred thirty four million, nine hundred three thousand, one hundred seventy",  # noqa:
+        "one billion, eight hundred thirty six million, three hundred eleven thousand, nine hundred three",  # noqa:
+        "two billion, nine hundred seventy one million, two hundred fifteen thousand seventy three",  # noqa:
         "four billion, eight hundred seven million, five hundred twenty six thousand, nine hundred seventy six", # noqa:
-        "seven billion, seven hundred seventy eight million, seven hundred forty two thousand forty nine",  # noqa: 
-        "twelve billion, five hundred eighty six million, two hundred sixty nine thousand twenty five",  # noqa: 
-        "twenty billion, three hundred sixty five million, eleven thousand seventy four",  # noqa: 
-        "thirty two billion, nine hundred fifty one million, two hundred eighty thousand ninety nine",  # noqa: 
+        "seven billion, seven hundred seventy eight million, seven hundred forty two thousand forty nine",  # noqa:
+        "twelve billion, five hundred eighty six million, two hundred sixty nine thousand twenty five",  # noqa:
+        "twenty billion, three hundred sixty five million, eleven thousand seventy four",  # noqa:
+        "thirty two billion, nine hundred fifty one million, two hundred eighty thousand ninety nine",  # noqa:
         "fifty three billion, three hundred sixteen million, two hundred ninety one thousand, one hundred seventy three", # noqa:
         "eighty six billion, two hundred sixty seven million, five hundred seventy one thousand, two hundred seventy two", # noqa:
         "one hundred thirty nine billion, five hundred eighty three million, eight hundred sixty two thousand, four hundred forty five", # noqa:
         "two hundred twenty five billion, eight hundred fifty one million, four hundred thirty three thousand, seven hundred seventeen", # noqa:
         "three hundred sixty five billion, four hundred thirty five million, two hundred ninety six thousand, one hundred sixty two", # noqa:
         "five hundred ninety one billion, two hundred eighty six million, seven hundred twenty nine thousand, eight hundred seventy nine", # noqa:
-        "nine hundred fifty six billion, seven hundred twenty two million, twenty six thousand forty one",  # noqa: 
+        "nine hundred fifty six billion, seven hundred twenty two million, twenty six thousand forty one",  # noqa:
         "one trillion, five hundred forty eight billion, eight million, seven hundred fifty five thousand, nine hundred twenty", # noqa:
         "two trillion, five hundred four billion, seven hundred thirty million, seven hundred eighty one thousand, nine hundred sixty one", # noqa:
         "four trillion, fifty two billion, seven hundred thirty nine million, five hundred thirty seven thousand, eight hundred eighty one", # noqa:
@@ -322,13 +322,10 @@ class ExpectedFibonacciWords:
     def __init__(self) -> None:
         self._max_sequence_length: int = len(self._EXPECTED_FIBONACCI_WORDS)
 
-    def get_max_sequence_length(self) -> int:
-        return self._max_sequence_length
-
     def get_expected_fibonacci_words(self, sequence_length: int) -> list[str]:
         if not (isinstance(sequence_length, int) and
-                (1 <= sequence_length <= self.get_max_sequence_length())):
+                (1 <= sequence_length <= self._max_sequence_length)):
             raise ValueError("sequence_length must be an integer from 1 to " +
-                             f"{self.get_max_sequence_length()} (inclusive)")
+                             f"{self._max_sequence_length} (inclusive)")
 
         return self._EXPECTED_FIBONACCI_WORDS[:sequence_length]
