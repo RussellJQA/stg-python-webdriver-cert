@@ -24,14 +24,13 @@ from selenium.webdriver.support.wait import WebDriverWait
 from pages.copart_home import CopartHomePage
 
 
-# Run this 3 times: once with "Skyline", once with "Skyline Gt", and once with "Skylinegtr", because:
+# Run this 2 times: once with "Skyline", and once with "Skylinegtr", because:
 #      Although the challenge only calls for "Skyline", that often fails (as the challenge said it might).
-#      So I'm re-running with some alternative values to demonstrate that this test can pass (when it should).
-#      At least 1 of the values usually passes for the U.S. [All 3 values usually fail in Canada and the U.K.]
+#      So I'm re-running with an alternative value to demonstrate that this test can pass (when it should).
+#      At least 1 of the values usually passes for the U.S. [Both values usually fail in Canada and the U.K.]
 @pytest.mark.parametrize(
     "search_key,filter_panel_link_text,filter_text,filter_check_box",
     [("nissan", "Model", "skyline", "Skyline"),
-     ("nissan", "Model", "skyline", "Skyline Gt"),
      ("nissan", "Model", "skyline", "Skylinegtr")])
 def test_filtering(driver: WebDriver, wait: WebDriverWait,
                    search_key: str,
@@ -49,7 +48,7 @@ def test_filtering(driver: WebDriver, wait: WebDriverWait,
     #   - Click the panel with the specified link text (e.g., 'Model')
     #   - Enter the specified text (e.g. 'skyline') in the 'Model' filter
     #       panel's text box
-    #   - Check the specified checkbox (e.g. 'Skyline') in the 'Model' filter
+    #   - Check the specified checkbox (e.g., "Skyline" or "Skylinegtr") in the 'Model' filter
     #       panel's list of checkboxes
 
     # With the following line of code, screenshots (on failure) are always output to ".\screenshots"
