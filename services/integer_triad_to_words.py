@@ -35,6 +35,13 @@ class ConvertIntegerTriadToWords:
     def get_words_for_tens_and_ones_digits(one_to_three_digit_int: int,
                                            hundreds_digit: int) -> str:
 
+        tens_and_ones = int(one_to_three_digit_int - (100 * hundreds_digit))
+
+        if tens_and_ones <= 19:
+            return "" if (tens_and_ones == 0) else f" {NUM_LT_TWENTY[tens_and_ones]}"
+
+        tens_digit = int(tens_and_ones // 10)
+        ones_digit = int(tens_and_ones - 10 * tens_digit)
         TENS_PLACE = {
             10: "ten",
             20: "twenty",
@@ -47,22 +54,16 @@ class ConvertIntegerTriadToWords:
             90: "ninety"
         }
 
-        tens_and_ones = int(one_to_three_digit_int - (100 * hundreds_digit))
-
-        if tens_and_ones > 19:
-            tens_digit = int(tens_and_ones // 10)
-            ones_digit = int(tens_and_ones - 10 * tens_digit)
-            return ((" " if hundreds_digit else "") +
-                    f"{TENS_PLACE[10 * tens_digit]}" +
-                    (f" {NUM_LT_TWENTY[ones_digit]}" if ones_digit else ""))
-        else:
-            return "" if (tens_and_ones == 0) else f" {NUM_LT_TWENTY[tens_and_ones]}"
+        return ((" " if hundreds_digit else "") +
+                f"{TENS_PLACE[10 * tens_digit]}" +
+                (f" {NUM_LT_TWENTY[ones_digit]}" if ones_digit else ""))
 
     @staticmethod
     def triad_to_string(one_to_three_digit_int: int) -> str:
 
         if one_to_three_digit_int < 0 or one_to_three_digit_int > 999:
-            raise ValueError(f"The input {str(one_to_three_digit_int)} should be a 1-to-3 digit integer.")
+            raise ValueError(
+                f"The input {one_to_three_digit_int} should be a 1-to-3 digit integer.")
 
         HUNDREDS_PLACE = {
             100: "one hundred",
